@@ -1,0 +1,15 @@
+# /etc/systemd/system/tvault-config.service
+[Unit]
+Description=Tvault config service
+After=tvault-config.service
+
+[Service]
+User=root
+Type=simple
+ExecStart=/home/stack/myansible/bin/python /opt/stack/workloadmgr/workloadmgr/tvault-config/tvault_config_bottle.py
+KillMode=process
+Restart=on-failure
+WorkingDirectory=/var/run
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,3 @@
+- hosts: webservers
+  tasks:
+  - command: ovftool --overwrite --powerOffTarget --powerOn tvault-old.ova vi://"administrator@vsphere.local":Password1\!@10.142.117.207/TrilioDC3/vm/tvault-appliances/tvault-build-vm 

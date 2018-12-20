@@ -1,0 +1,38 @@
+{
+  "triliovault-hostnames": "{{ controller_nodes }}",
+  "virtual-ip": "{{virtual_ip}}",
+  "name-server": "{{name_server}}",
+  "domain-search-order": "{{domain_search_order}}",
+  "ntp-servers": "{{ntp_servers}}",
+  "timezone": "{{timezone}}",
+  "keystone-admin-url": "{{keystone_admin_url}}",
+  "keystone_public_url": "{{keystone_public_url}}",
+  "admin-username": "{{admin_username}}",
+  "admin-password": "{{admin_password}}",
+  "admin-tenant-name": "{{admin_tenant_name}}",
+  "region-name": "{{region_name}}",
+  "domain-name": "{{domain_id}}",
+  "trustee-role": "{{trustee_role}}",
+  "backup_target_type": "{{backup_target_type}}",
+  "storage-nfs-export": "{{storage_nfs_export}}",
+  "storage-nfs-options": "{{nfs_options}}",
+  "swift-auth-version": "{{swift_auth_version}}",
+  "swift-auth-url": "{{swift_auth_url}}",
+  "swift-username": "{{swift_username}}",
+  "swift-password": "{{swift_password}}",
+  "s3-backend-type": "{{s3_type}}",
+  "s3-access-key": "{{s3_access_key}}",
+  "s3-secret-key": "{{s3_secret_key}}",
+  "s3-bucket": "{{s3_bucket}}",
+  "s3-region": "{{s3_region_name}}",
+  "s3-endpoint-url": "{{s3_endpoint_url}}",
+  "s3-use-ssl": "{{s3_ssl_enabled}}",
+  "enable_tls": "{{enable_tls}}",
+  {% if enable_tls == "True" %}
+  {% set cert = lookup('file', 'cert_file_path') %}
+  {% set privatekey = lookup('file', 'privatekey_file_path') %}
+  "cert": "{{cert}}",
+  "privatekey": "{{privatekey}}",
+  {% endif %}
+  "workloads-import": "{{import_workloads}}"
+}

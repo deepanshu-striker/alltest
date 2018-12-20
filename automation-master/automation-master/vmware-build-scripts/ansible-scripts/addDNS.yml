@@ -1,0 +1,4 @@
+- hosts: webservers
+  tasks:
+  - copy: src="{{playbook_dir}}/artifacts/base" dest=/etc/resolvconf/resolv.conf.d/base owner=root group=root mode=0644
+  - command: resolvconf -u

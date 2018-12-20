@@ -1,0 +1,12 @@
+- hosts: 127.0.0.1
+  connection: local
+
+  tasks:
+  - name: Create configure vars file
+    shell: cp "{{playbook_dir}}/vars/tvault-config.answers" "{{playbook_dir}}/vars/configure_vars.yml"
+
+  - name: Give permission
+    shell: chmod 0755 "{{playbook_dir}}/vars/configure_vars.yml"
+   
+  - name: Format config vars file
+    shell: "sed -i -- 's/=/: /g' '{{playbook_dir}}/vars/configure_vars.yml'"

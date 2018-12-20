@@ -1,0 +1,13 @@
+- hosts: '{{ host }}'
+
+  tasks:
+  - name: Copy build docker image build scripts
+    copy: src="{{playbook_dir}}/automation/openstack-build-scripts/build_docker_images.sh" dest=/home/docker_build/ owner=root group=root mode=0755 force=yes
+
+  - name: build docker images
+    shell: /home/docker_build/build_docker_images.sh
+    environment:
+      FLOATING_IP: '{{ floating_ip }}'
+      TVAULT_VERSION: '{{ tvault_version }}'
+    args:
+      chdir: /home/docker_build/

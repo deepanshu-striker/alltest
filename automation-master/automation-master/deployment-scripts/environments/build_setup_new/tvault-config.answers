@@ -1,0 +1,74 @@
+#################################
+# Ip address of trilioVault controller node
+controller_node_ip=192.168.1.243
+
+# Hostname of trilioVault controller node
+controller_node_hostname=tvault-automation.trilio.test
+
+#Specify list of additional node ips to be configured, ips should be separated by single space
+#additional_nodes_list="192.168.1.243"
+##################
+# Configurator password
+configurator_password=password
+##################################################
+# Keystone admin point
+keystone_admin_url=http://192.168.1.69:35357/v3
+##################
+# Keystone public endpoint
+keystone_public_url=http://192.168.1.69:5000/v3
+######################
+#Keystone domain id
+domain_id=default
+#Role for creating keystone trust
+trustee_role=_member_
+#Admin user name
+admin_username=admin
+#######################
+# Admin password
+admin_password=password
+#####################
+# Admin tenant name
+admin_tenant_name=admin
+##################
+# Openstack deployment region
+region_name=RegionOne
+#####################
+# DNS server settings, keep these settings empty if you don't have any nameserver (Don't comment)
+name_server=192.168.1.1
+domain_search_order=triliodata.demo
+
+###############################
+#Snapshot storage details, NFS/SWIFT
+backup_target_type=SWIFT
+################################
+#NFS options
+################################
+storage_nfs_export=
+################################
+#Swift options
+################################
+#TEMPAUTH or KEYSTONE
+################################
+swift_auth_version=TEMPAUTH
+################################
+# Below options valid for TEMPAUTH
+################################
+swift_auth_url=
+swift_username=
+swift_password=
+
+#Ntp and timezone settings
+ntp_enabled=off
+ntp_servers=ntp.org,ntp.org.hk
+timezone=Utc
+
+#SSL configuarions for wlm
+enable_tls=False
+cert_file_path="triliovault.cert"
+privatekey_file_path="triliovault.key"
+
+#Import existing workloads from backup target
+import_workloads=False
+
+#####You are done with configuration, following parameters are for internal use, please ignore them##########
+configured_additional_nodes=""

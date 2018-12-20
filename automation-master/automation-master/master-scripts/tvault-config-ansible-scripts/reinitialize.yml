@@ -1,0 +1,30 @@
+---
+
+- hosts: 127.0.0.1
+  connection: local
+  vars_files:
+    - vars/configure_vars.yml
+    - vars/vault.yml
+
+  pre_tasks:
+    - debug: var=floating_ipaddress
+
+    - name: Access Horizon Dashboard
+      shell: curl -k 'https://{{ floating_ipaddress }}/landing_page_openstack'
+      register: res
+
+    - action: fail msg="Controller node is not valid"
+      when: res.stdout.find('Horizon Dashboard') == -1
+
+  tasks:
+  - name: login node
+    shell: curl -k --cookie-jar '{{ cookie }}' --data 'username={{ user_name }}&password={{ configurator_password }}' 'https://{{ floating_ipaddress }}/login'
+
+  - name: reinitialize controller node
+    shell: curl -k --cookie '{{ cookie }}' 'https://{{ floating_ipaddress }}/reinitialize'
+    ignore_errors: false
+    register: check
+
+  - action: fail msg="Error while reinitializing"
+    when: check.rc != 0
+

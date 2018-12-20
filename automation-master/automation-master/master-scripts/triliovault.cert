@@ -1,0 +1,93 @@
+Certificate:
+Data:
+Version: 3 (0x2)
+Serial Number: 1 (0x1)
+Signature Algorithm: sha1WithRSAEncryption
+Issuer: C=US, O=Trilio, OU=Trilio Certificate Authority, CN=Trilio TLS CA
+Validity
+Not Before: Sep 18 09:24:06 2017 GMT
+Not After : Sep 18 09:24:06 2019 GMT
+Subject: C=US, O=Trilio, OU=Trilio Certificate Authority, CN=Trilio TLS CA
+Subject Public Key Info:
+Public Key Algorithm: rsaEncryption
+Public-Key: (2048 bit)
+Modulus:
+00:b3:8e:44:ed:0e:9f:99:53:c8:62:f6:eb:9d:94:
+2c:23:80:df:0e:64:d2:ca:e4:51:38:9c:61:53:8d:
+4a:8d:ad:af:52:4f:c7:33:bc:b7:7e:9d:50:be:0b:
+60:b0:9b:16:08:47:9a:83:53:38:05:4b:56:d1:5d:
+bb:5e:8d:a3:ce:d7:4e:67:fb:5c:6a:f5:db:16:99:
+71:c6:f6:bf:c4:bc:e4:6c:a2:32:ce:05:70:f2:d7:
+a2:9f:58:0d:1b:29:a3:2f:f2:36:0f:aa:30:b9:3f:
+9a:66:b0:b1:41:ee:07:21:e9:14:2f:a5:54:44:8d:
+26:02:5c:c3:bb:e2:7e:c0:6c:97:fd:b0:a0:3c:7a:
+7d:58:70:dc:da:c1:6c:50:89:08:45:4a:38:68:f3:
+a9:23:32:4f:82:0a:9d:28:66:ef:ba:2e:b0:1e:4e:
+09:33:2b:cf:69:62:14:b2:a0:8a:8a:a0:31:a1:06:
+45:39:88:6b:8b:36:e3:7e:39:ce:4f:f1:f9:52:fb:
+7b:5b:d5:49:7e:82:b7:44:d0:34:6c:d4:8a:91:0f:
+68:0b:45:2d:e2:63:80:76:4e:6a:25:dc:29:89:63:
+93:2d:94:91:bd:f4:e8:e3:b7:06:7a:b0:f5:cf:0c:
+6c:20:3a:11:04:f9:55:b5:38:3c:48:33:32:a0:d0:
+92:39
+Exponent: 65537 (0x10001)
+X509v3 extensions:
+X509v3 Key Usage: critical
+Digital Signature, Key Encipherment
+X509v3 Basic Constraints:
+CA:FALSE
+X509v3 Extended Key Usage:
+TLS Web Server Authentication, TLS Web Client Authentication
+X509v3 Subject Key Identifier:
+FB:79:26:9F:DF:32:73:4C:BC:BA:5E:3E:1F:01:EC:A3:76:A4:8A:A2
+X509v3 Authority Key Identifier:
+keyid:3A:B5:D9:05:56:F9:45:A8:D8:48:31:77:49:41:64:31:62:38:59:30
+Authority Information Access:
+CA Issuers - URI:http://green.no/ca/tls-ca.cer
+X509v3 CRL Distribution Points:
+Full Name:
+URI:http://green.no/ca/tls-ca.crl
+X509v3 Subject Alternative Name:
+DNS:trilio.test, DNS:tvault-automation.trilio.test
+Signature Algorithm: sha1WithRSAEncryption
+2b:4e:8c:97:69:c2:b7:7f:ee:e5:ab:8f:91:e9:7c:06:97:5d:
+a8:bb:61:ac:4b:ce:9a:6a:fa:17:51:57:64:7b:7f:6a:15:10:
+3f:83:ca:e2:52:09:61:d7:64:8a:2a:f6:fb:1c:8d:18:d1:51:
+04:df:2b:01:ff:e8:eb:15:75:d9:5a:57:5b:95:66:2e:64:d6:
+8c:f2:b2:e7:68:ef:9c:e5:48:a3:8a:aa:de:ec:bd:be:8f:65:
+a0:52:8a:3c:ca:2e:ce:03:17:0d:ab:de:00:54:f6:42:fe:3f:
+69:ef:1b:e7:46:f4:eb:88:4f:05:a4:bd:f4:d1:76:92:c2:03:
+38:9a:83:12:14:93:7a:a6:f5:b4:4e:1c:3e:e2:61:f4:9b:d0:
+0a:b2:c1:5d:e5:a7:21:f9:e9:d2:98:d4:e1:ad:3d:ef:8b:2c:
+b3:9f:79:2b:55:3d:b7:e7:24:fa:92:17:6b:ce:f9:53:09:a7:
+74:a0:e7:b9:46:d7:f9:04:a4:1f:bc:78:37:2e:45:10:dc:3f:
+bb:bd:2f:df:ff:f1:c7:c1:19:8c:49:6e:b8:99:1d:4c:e4:45:
+69:a4:50:83:10:f3:1a:05:c7:ce:15:49:53:2b:d8:6f:80:cb:
+cc:e4:52:8f:4d:fb:0e:1f:31:d3:8e:14:92:c4:54:5e:dd:ee:
+2c:a3:52:31
+-----BEGIN CERTIFICATE-----
+MIIEVzCCAz+gAwIBAgIBATANBgkqhkiG9w0BAQUFADBdMQswCQYDVQQGEwJVUzEP
+MA0GA1UECgwGVHJpbGlvMSUwIwYDVQQLDBxUcmlsaW8gQ2VydGlmaWNhdGUgQXV0
+aG9yaXR5MRYwFAYDVQQDDA1UcmlsaW8gVExTIENBMB4XDTE3MDkxODA5MjQwNloX
+DTE5MDkxODA5MjQwNlowXTELMAkGA1UEBhMCVVMxDzANBgNVBAoMBlRyaWxpbzEl
+MCMGA1UECwwcVHJpbGlvIENlcnRpZmljYXRlIEF1dGhvcml0eTEWMBQGA1UEAwwN
+VHJpbGlvIFRMUyBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALOO
+RO0On5lTyGL2652ULCOA3w5k0srkUTicYVONSo2tr1JPxzO8t36dUL4LYLCbFghH
+moNTOAVLVtFdu16No87XTmf7XGr12xaZccb2v8S85GyiMs4FcPLXop9YDRspoy/y
+Ng+qMLk/mmawsUHuByHpFC+lVESNJgJcw7vifsBsl/2woDx6fVhw3NrBbFCJCEVK
+OGjzqSMyT4IKnShm77ousB5OCTMrz2liFLKgioqgMaEGRTmIa4s24345zk/x+VL7
+e1vVSX6Ct0TQNGzUipEPaAtFLeJjgHZOaiXcKYljky2Ukb306OO3Bnqw9c8MbCA6
+EQT5VbU4PEgzMqDQkjkCAwEAAaOCASAwggEcMA4GA1UdDwEB/wQEAwIFoDAJBgNV
+HRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAdBgNVHQ4EFgQU
++3kmn98yc0y8ul4+HwHso3akiqIwHwYDVR0jBBgwFoAUOrXZBVb5RajYSDF3SUFk
+MWI4WTAwOQYIKwYBBQUHAQEELTArMCkGCCsGAQUFBzAChh1odHRwOi8vZ3JlZW4u
+bm8vY2EvdGxzLWNhLmNlcjAuBgNVHR8EJzAlMCOgIaAfhh1odHRwOi8vZ3JlZW4u
+bm8vY2EvdGxzLWNhLmNybDA1BgNVHREELjAsggt0cmlsaW8udGVzdIIddHZhdWx0
+LWF1dG9tYXRpb24udHJpbGlvLnRlc3QwDQYJKoZIhvcNAQEFBQADggEBACtOjJdp
+wrd/7uWrj5HpfAaXXai7YaxLzppq+hdRV2R7f2oVED+DyuJSCWHXZIoq9vscjRjR
+UQTfKwH/6OsVddlaV1uVZi5k1ozysudo75zlSKOKqt7svb6PZaBSijzKLs4DFw2r
+3gBU9kL+P2nvG+dG9OuITwWkvfTRdpLCAziagxIUk3qm9bROHD7iYfSb0AqywV3l
+pyH56dKY1OGtPe+LLLOfeStVPbfnJPqSF2vO+VMJp3Sg57lG1/kEpB+8eDcuRRDc
+P7u9L9//8cfBGYxJbriZHUzkRWmkUIMQ8xoFx84VSVMr2G+Ay8zkUo9N+w4fMdOO
+FJLEVF7d7iyjUjE=
+-----END CERTIFICATE-----

@@ -1,0 +1,82 @@
+## Configurator password,  maintain same configurator password across all tvault nodes
+configurator_node_ip: 192.168.7.15
+configurator_username: admin
+configurator_password: password
+
+# one or three trilioVault controller nodes separated by commas; Format is [IP Address: Hostname]
+controller_nodes: "192.168.7.9=tvault-automation.trilio.test"
+
+##Virtual IP (Use different ip than controller node ip)
+virtual_ip: 192.168.7.16
+
+# DNS server settings, keep these settings empty if you don't have any nameserver (Don't comment)
+name_server: 8.8.8.8
+domain_search_order: triliodata.demo
+
+#Ntp and timezone settings
+ntp_enabled: on
+ntp_servers: 0.pool.ntp.org,1.pool.ntp.org,2.pool.ntp.org
+timezone: Etc/UTC
+
+# Keystone admin point
+keystone_admin_url: http://192.168.6.24:5000/v3
+
+# Keystone public endpoint
+keystone_public_url: http://192.168.6.24:5000/v3
+
+# dm_endpoint
+dm_endpoint: http://192.168.6.24:8784
+
+#Admin user name
+admin_username: admin
+
+# Admin password
+admin_password: password
+
+# Admin tenant name
+admin_tenant_name: admin
+
+# Openstack deployment region
+region_name: RegionOne
+
+#Keystone domain id
+domain_id: default
+
+#Role for creating keystone trust
+trustee_role: _member_
+
+#Snapshot storage details, NFS/SWIFT/S3
+backup_target_type: NFS
+
+####If backup target is NFS
+storage_nfs_export: 192.168.1.33:/mnt/tvault
+nfs_options: nolock,soft,timeo=180,intr
+
+####If backup target is Swift
+#Specify swift auth version,supported values are: TEMPAUTH / KEYSTONE
+swift_auth_version:
+# Below options valid for TEMPAUTH
+swift_auth_url:
+swift_username:
+swift_password:
+
+####If backup target is S3
+#S3 Backend Type (Amazon, Redhat Ceph or Suse Ceph)
+s3_type: Amazon
+s3_access_key: AKIAJRZSA6PLWFXXFUVA
+s3_secret_key: 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
+s3_bucket: sanityautomation
+#Below option valid only for Amazon
+s3_region_name: us-east-2
+#Below options valid for Redhat Ceph and Suse Ceph
+s3_endpoint_url: http://192.168.14.18/
+s3_ssl_enabled: False
+
+
+##Enable TLS on TrilioVault api endpoint in OpenStack
+enable_tls: False
+cert_file_path: "/opt/ssl-certificates/triliovault.cert"
+privatekey_file_path: "/opt/ssl-certificates/triliovault.key"
+
+#Import existing workloads from backup target
+import_workloads: False

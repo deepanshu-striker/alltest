@@ -1,0 +1,18 @@
+#!/usr/bin/expect
+
+set timeout 20
+
+set user [lindex $argv 0]
+
+set password [lindex $argv 1]
+
+set client [lindex $argv 2]
+
+spawn ssh-copy-id $user@$client
+
+expect "password:"
+
+send "$password\r";
+
+
+interact

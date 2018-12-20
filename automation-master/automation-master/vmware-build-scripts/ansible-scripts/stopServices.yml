@@ -1,0 +1,23 @@
+- hosts: webservers
+  tasks:
+  - service: name=wlm-api state=stopped
+  - service: name=wlm-scheduler state=stopped
+  - service: name=wlm-workloads state=stopped
+  - service: name=nova-compute state=stopped
+  - service: name=nova-cert state=stopped
+  - service: name=nova-api state=stopped
+  - service: name=nova-consoleauth state=stopped
+  - service: name=nova-conductor state=stopped
+  - service: name=nova-scheduler state=stopped
+  - service: name=nova-novncproxy state=stopped
+  - service: name=nova-xvpvncproxy state=stopped
+  - service: name=keystone  state=stopped
+  - service: name=glance-registry  state=stopped
+  - service: name=glance-api state=stopped
+  - service: name=neutron-dhcp-agent state=stopped
+  - service: name=neutron-metadata-agent state=stopped
+  - service: name=neutron-plugin-openvswitch-agent state=stopped
+  - service: name=neutron-l3-agent state=stopped
+  - service: name=neutron-server state=stopped
+  - service: name=rabbitmq-server state=stopped
+

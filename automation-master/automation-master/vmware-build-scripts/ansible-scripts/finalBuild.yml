@@ -1,0 +1,12 @@
+- hosts: webservers
+- include: "{{playbook_dir}}/gitAuthSetup.yml"
+- include: "{{playbook_dir}}/addDNS.yml"
+- include: "{{playbook_dir}}/gitAcceptKeys.yml"
+- include: "{{playbook_dir}}/updateCode.yml"
+- include: "{{playbook_dir}}/stopServices.yml"
+- include: "{{playbook_dir}}/setServicesManual.yml"
+- include: "{{playbook_dir}}/removeLogDir.yml"
+- include: "{{playbook_dir}}/resetCofigPassword.yml"
+- include: "{{playbook_dir}}/updatePlymouth.yml"
+- include: "{{playbook_dir}}/removeDNS.yml"
+  

@@ -1,0 +1,7 @@
+flavor_name: tvault-test-flavor
+tvault_vm_name: tvault-test-vm
+image_name: tvault-test-img
+security_group_name: tvault-test-secgrp
+key_name: 
+fixed_network_id: 3245bc3c-962c-4c57-b776-d2f7a2167c14
+floating_ip: 192.168.1.235

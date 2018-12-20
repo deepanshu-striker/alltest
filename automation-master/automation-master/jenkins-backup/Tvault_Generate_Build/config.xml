@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Generate new TVault build</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.synopsys.arc.jenkins.plugins.ownership.jobs.JobOwnerJobProperty plugin="ownership@0.8"/>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>GIT_BRANCH</name>
+          <description>Git branch</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>master</string>
+              <string>v2.2</string>
+              <string>v2.3</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>TVAULT_IP</name>
+          <description>Trilio Vault IP</description>
+          <defaultValue>192.168.1.235</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>UPDATE_BUILD_VERSION</name>
+          <description>Select &apos;Yes&apos; to trigger a new build with new version
+Select &apos;No&apos; to re-trigger a build without updating to new version</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>Yes</string>
+              <string>No</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>BASE_IMAGE_CHANGES</name>
+          <description>Select &apos;Yes&apos; if any base image changes required
+Select &apos;No&apos; if base image changes not required</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>No</string>
+              <string>Yes</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>BASE_IMAGE_COMMANDS</name>
+          <description>Commands to be executed on Base image for new build</description>
+          <defaultValue></defaultValue>
+        </hudson.model.TextParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>BASE_IMAGE_DATABASE_UPDATE</name>
+          <description>Select &apos;Yes&apos; if any base image database updates required
+Select &apos;No&apos; if base image database updates not required</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>No</string>
+              <string>Yes</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.TextParameterDefinition>
+          <name>BASE_IMAGE_DATABASE_COMMANDS</name>
+          <description>Database commands to be executed on Base image for new build</description>
+          <defaultValue></defaultValue>
+        </hudson.model.TextParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="org.jenkinsci.plugins.multiplescms.MultiSCM" plugin="multiple-scms@0.6">
+    <scms>
+      <hudson.plugins.git.GitSCM plugin="git@2.4.0">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+          <hudson.plugins.git.UserRemoteConfig>
+            <url>git@github.com:trilioData/automation.git</url>
+            <credentialsId>e4db19f8-0bd1-4943-8c49-cce696e79358</credentialsId>
+          </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+          <hudson.plugins.git.BranchSpec>
+            <name>${GIT_BRANCH}</name>
+          </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions>
+          <hudson.plugins.git.extensions.impl.CleanBeforeCheckout/>
+        </extensions>
+      </hudson.plugins.git.GitSCM>
+      <hudson.plugins.git.GitSCM plugin="git@2.4.0">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+          <hudson.plugins.git.UserRemoteConfig>
+            <url>git@github.com:trilioData/contego.git</url>
+            <credentialsId>e4db19f8-0bd1-4943-8c49-cce696e79358</credentialsId>
+          </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+          <hudson.plugins.git.BranchSpec>
+            <name>${GIT_BRANCH}</name>
+          </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions>
+          <hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+            <relativeTargetDir>contego</relativeTargetDir>
+          </hudson.plugins.git.extensions.impl.RelativeTargetDirectory>
+        </extensions>
+      </hudson.plugins.git.GitSCM>
+    </scms>
+  </scm>
+  <assignedNode>openstack-build-44</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+cp -r deployment-scripts/environments/build_setup openstack-build-scripts/
+
+cd openstack-build-scripts/
+pwd
+
+sed -i &apos;/floating_ip=/c floating_ip=&apos;$TVAULT_IP&apos;&apos; build_setup/build.properties
+sed -i &apos;/git_branch=/c git_branch=&apos;$GIT_BRANCH&apos;&apos; build_setup/build.properties
+
+sed -i &apos;/ .\/validate-build.sh/c # .\/validate-build.sh&apos; buildTVault.sh
+
+case &quot;$BASE_IMAGE_CHANGES&quot; in
+  Yes) echo &quot;$BASE_IMAGE_COMMANDS&quot; &gt;&gt; baseImage.sh;;
+  No)  continue;;
+esac
+
+case &quot;$BASE_IMAGE_DATABASE_UPDATE&quot; in
+  Yes) echo &quot;$BASE_IMAGE_DATABASE_COMMANDS&quot; &gt;&gt; dbCommands;;
+  No)  sed -i &apos;/\update_database.sh/c # .\/update_database.sh&apos; buildTVault.sh;;
+esac
+
+case &quot;$UPDATE_BUILD_VERSION&quot; in
+  Yes)  ./update_version.sh
+         if [ $? -ne 0 ]
+         then
+           exit 1
+         fi;;
+  No)   sed -i &apos;/TVAULT_VERSION/d&apos; build_setup/build.properties
+		sed -i &apos;/PRE_OLD_VERSION_i/d&apos; build_setup/build.properties
+		sed -i &apos;/OLD_VERSION_i/d&apos; build_setup/build.properties
+		sed -i &apos;/NEW_VERSION_i/d&apos; build_setup/build.properties
+		sed -i &apos;/OLD_VERSION/d&apos; build_setup/build.properties
+        
+        ls /mnt/build-vault/${GIT_BRANCH}/latest/ | grep tvault
+  		if [ $? -ne 0 ]; then
+     	  echo &quot;Latest build is not available, please check the build store&quot;
+     	  exit 1
+  		fi
+  		export OLD_TVAULT_VERSION=`ls /mnt/build-vault/${GIT_BRANCH}/latest/ | cut -f 4 -d &apos;-&apos; | cut -f 1,2,3 -d &apos;.&apos;`
+
+		p=(${OLD_TVAULT_VERSION//./ })
+
+  		p1=${p[0]}
+  		p2=${p[1]}
+  		old_build_number=${p[2]}
+		old_build_number=`expr $old_build_number - 1`
+        build_number=`expr $old_build_number + 1`
+  		pre_old_build_number=`expr $build_number - 2`
+
+  		export PRE_OLD_VERSION_i=&quot;${p1}_${p2}_$pre_old_build_number&quot;
+ 		export OLD_VERSION_i=&quot;${p1}_${p2}_$old_build_number&quot;
+  		export NEW_VERSION_i=&quot;${p1}_${p2}_$build_number&quot;
+  		export OLD_VERSION=&quot;${p1}.${p2}.$old_build_number&quot;
+  		export TVAULT_VERSION=&quot;${p1}.${p2}.$build_number&quot;
+
+        echo &quot;TVAULT_VERSION=$TVAULT_VERSION&quot; &gt;&gt; build_setup/build.properties
+  		echo &quot;PRE_OLD_VERSION_i=$PRE_OLD_VERSION_i&quot; &gt;&gt; build_setup/build.properties
+  		echo &quot;OLD_VERSION_i=$OLD_VERSION_i&quot; &gt;&gt; build_setup/build.properties
+  		echo &quot;NEW_VERSION_i=$NEW_VERSION_i&quot; &gt;&gt; build_setup/build.properties
+  		echo &quot;OLD_VERSION=$OLD_VERSION&quot;  &gt;&gt; build_setup/build.properties;;
+esac
+
+./buildTVault.sh
+if [ $? -ne 0 ]
+then
+  exit 1
+fi</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

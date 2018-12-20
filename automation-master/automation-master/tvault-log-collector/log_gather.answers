@@ -1,0 +1,11 @@
+######Enter all compute node seprated by space####
+Compute=192.168.1.40 192.168.1.41
+User_compute=root
+
+######Enter all controller  node to seprated by space####
+Controller=192.168.1.42
+User_controller=root
+
+
+######Enter all tvault node seprated by space####
+Tvault=192.168.1.249

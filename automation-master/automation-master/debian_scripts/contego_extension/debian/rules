@@ -1,0 +1,19 @@
+#!/usr/bin/make -f
+%:
+	dh $@
+
+override_dh_auto_install:
+	#cd /opt/stack/hithere-1.0
+	mkdir -p home/tvault/
+	mkdir -p  debian/home/tvault
+	#cp tvault-contego-virtenv.tar.gz debian/home/tvault
+	cp tvault-contego-virtenv.tar.gz home/tvault/
+	#cd /opt/stack/hithere-1.0/home/tvault
+	tar -xvzf tvault-contego-virtenv.tar.gz -C home/tvault/
+	#rm tvault-contego-virtenv.tar.gz
+	cp -r home/tvault/.virtenv/ debian/home/tvault/
+	dh_install home/tvault/
+	$(MAKE) DESTDIR=$$(pwd)/debian/contego prefix=/usr install
+
+override_dh_shlibdeps:
+	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info

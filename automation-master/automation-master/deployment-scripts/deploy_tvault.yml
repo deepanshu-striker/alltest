@@ -1,0 +1,94 @@
+- hosts: 127.0.0.1
+  connection: local
+  vars_files:
+   - vars/tvault-config.yml
+   - vars/openstack-config.yml
+
+  tasks:
+  - name: Add host entry to inventory file
+    add_host: name={{floating_ip }} groups=build-vm
+
+  - name: Clean existing tvault build vm
+    os_server:
+     auth: '{{auth}}'
+     state: absent
+     name: '{{tvault_vm_name}}'
+     timeout: 400
+
+
+  - name: Clean existing tvault image
+    os_image:
+     auth: '{{auth}}'
+     name: '{{image_name}}'
+     state: absent
+  
+  - name: Upload tvault image
+    os_image:
+     auth: '{{auth}}'
+     name: '{{image_name}}'
+     container_format: bare
+     disk_format: qcow2
+     state: present
+     filename: '{{build_path}}'
+
+  - name: Clean existing tvault flavor
+    os_nova_flavor:
+     auth='{{auth}}'
+     state=absent
+     name='{{flavor_name}}'
+
+  - name: Create tvault flavor
+    os_nova_flavor:
+     auth='{{auth}}'
+     state=present
+     name='{{flavor_name}}'
+     ram=4096
+     vcpus=2
+     disk=40
+     ephemeral=1
+     swap=256
+
+  - name: Create Security group
+    os_security_group:
+      state=absent
+      name='{{security_group_name}}'
+      description="tvm security group"
+
+
+
+  - name: Create Security group
+    os_security_group:
+      state=present
+      name='{{security_group_name}}'
+      description="tvm security group"
+
+  - name: Add all TCP rule
+    os_security_group_rule:
+      security_group: '{{security_group_name}}'
+      protocol: tcp
+      remote_ip_prefix: 0.0.0.0/0
+
+  - name: Add all UDP rule
+    os_security_group_rule:
+      security_group: '{{security_group_name}}'
+      protocol: udp
+      remote_ip_prefix: 0.0.0.0/0
+
+  - name: Add all ICMP rule
+    os_security_group_rule:
+      security_group: '{{security_group_name}}'
+      protocol: icmp
+      remote_ip_prefix: 0.0.0.0/0
+
+  - name: Create Tvault VM
+    os_server:
+     auth: '{{auth}}'
+     state: present
+     name: '{{tvault_vm_name}}'
+     image: '{{image_name}}'
+     timeout: 400
+     flavor: '{{flavor_name}}'
+     nics:
+      - net-id: '{{fixed_network_id}}'
+     security_groups: '{{security_group_name}}'
+     floating_ips: '{{floating_ip}}' 

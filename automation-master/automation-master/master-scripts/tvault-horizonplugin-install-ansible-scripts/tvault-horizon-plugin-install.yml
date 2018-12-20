@@ -1,0 +1,34 @@
+- hosts: 127.0.0.1
+  connection: local
+  vars_files:
+   - vars/tvault-horizon-plugin-answers.yml
+
+  tasks:
+  - name: Clean existing install files
+    file: path="{{playbook_dir}}/tvault-horizon-plugin-install.sh" state=absent
+
+  - name: Download tvault-contego install file
+    get_url: url="http://{{TVAULTAPP}}/tvault-horizon-plugin-install.sh" dest="{{playbook_dir}}/" mode=0700 validate_certs=no
+
+  - name: Create answers file
+    copy: src="{{playbook_dir}}/vars/tvault-horizon-plugin-answers.yml" dest="{{playbook_dir}}/tvault-horizon-plugin-install.answer" mode=0750
+
+  - name: Format answers file
+    replace: dest="{{playbook_dir}}/tvault-horizon-plugin-install.answer" regexp='\:\s' replace='='
+
+- hosts: horizon
+  tasks:
+  - name: Create TVault horizon plugin directory
+    file: path="{{ ansible_env.HOME}}/tvault-horizon-plugin" state=directory mode=0750
+
+  - name: Copy install file
+    copy: src="{{playbook_dir}}/tvault-horizon-plugin-install.sh" dest="{{ansible_env.HOME}}/tvault-horizon-plugin/tvault-horizon-plugin-install.sh" mode=0750
+
+  - name: Copy answers file
+    copy: src="{{playbook_dir}}/tvault-horizon-plugin-install.answer" dest="{{ansible_env.HOME}}/tvault-horizon-plugin/tvault-horizon-plugin-install.answer"
+
+  - name: Install TVault horizon plugin
+    shell: ./tvault-horizon-plugin-install.sh --auto >> tvault-horizon-plugin-install.log chdir="{{ansible_env.HOME}}/tvault-horizon-plugin"
+
+  - name: Collect logs
+    fetch: src="{{ ansible_env.HOME}}/tvault-horizon-plugin/tvault-horizon-plugin-install.log" dest="{{playbook_dir}}/logs/{{ ansible_hostname }}/" flat=yes

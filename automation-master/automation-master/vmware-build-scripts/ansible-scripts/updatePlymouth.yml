@@ -1,0 +1,3 @@
+- hosts: webservers
+  tasks:
+  - copy: src="{{playbook_dir}}/artifacts/tvault.plymouth" dest=/lib/plymouth/themes/tvault/tvault.plymouth owner=root group=root mode=0644

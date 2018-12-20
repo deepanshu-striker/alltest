@@ -1,0 +1,14 @@
+[build-vm]
+192.168.7.28
+
+[controller]
+192.168.1.69
+
+[compute]
+192.168.1.69
+
+[horizon]
+192.168.1.69
+
+[localhost]
+127.0.0.1     ansible_connection=local

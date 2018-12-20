@@ -1,0 +1,4 @@
+Successfully configured trilioVault controller node 192.168.1.235 
+
+Please note that you need to reconfigure additional nodes, if you have already configured any
+

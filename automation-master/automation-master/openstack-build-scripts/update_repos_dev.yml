@@ -1,0 +1,54 @@
+- hosts: '{{host}}'
+  vars_files:
+   - vars/tvault-config.yml
+   - vars/openstack-config.yml
+
+  tasks:
+  - name: Download workloadmgr repo
+    git: repo=git@github.com:{{dev_username}}/workloadmanager.git dest=/opt/stack/workloadmgr accept_hostkey=yes version='{{git_branch_workloadmgr}}' force=yes update=yes
+
+  - name: Download contego repo
+    git: repo=git@github.com:{{dev_username}}/contego.git dest=/opt/stack/contego accept_hostkey=yes version='{{git_branch_contego}}' force=yes update=yes
+
+  - name: Download contegoclient repo
+    git: repo=git@github.com:{{dev_username}}/contegoclient.git dest=/opt/stack/contegoclient accept_hostkey=yes version='{{git_branch_contegoclient}}' force=yes update=yes
+
+  - name: Download horizon-tvault-plugin repo
+    git: repo=git@github.com:{{dev_username}}/horizon-tvault-plugin.git dest=/opt/stack/horizon-tvault-plugin accept_hostkey=yes version='{{git_branch_horizon}}' force=yes update=yes
+
+  - name: Download workoadmgr client repo
+    git: repo=git@github.com:{{dev_username}}/workloadmanager-client.git dest=/opt/stack/python-workloadmgrclient accept_hostkey=yes version='{{git_branch_workloadmgr_client}}' force=yes update=yes
+
+  - name: Download nova client
+    git: repo=git@github.com:TrilioBuild/python-novaclient.git dest=/opt/stack/python-novaclient accept_hostkey=yes version='{{client_git_branch}}' force=yes update=yes
+
+  - name: Download neutron client
+    git: repo=git@github.com:TrilioBuild/python-neutronclient.git dest=/opt/stack/python-neutronclient accept_hostkey=yes version='{{client_git_branch}}' force=yes update=yes
+
+  - name: Download glance client
+    git: repo=git@github.com:TrilioBuild/python-glanceclient.git dest=/opt/stack/python-glanceclient accept_hostkey=yes version='{{client_git_branch}}' force=yes update=yes
+
+  - name: Download keystone client
+    git: repo=git@github.com:TrilioBuild/python-keystoneclient.git dest=/opt/stack/python-keystoneclient accept_hostkey=yes version='{{client_git_branch}}' force=yes update=yes
+
+  - name: Download cinder client
+    git: repo=git@github.com:TrilioBuild/python-cinderclient.git dest=/opt/stack/python-cinderclient accept_hostkey=yes version='{{client_git_branch}}' force=yes update=yes
+
+  - name: Download taskflow
+    git: repo=git@github.com:TrilioBuild/taskflow.git dest=/opt/stack/taskflow accept_hostkey=yes version='{{client_git_branch}}' force=yes update=yes
+
+  - name: Copy workloadmgr conf
+    command: /bin/cp /opt/stack/workloadmgr/etc/workloadmgr/workloadmgr.conf /etc/workloadmgr/
+
+  - name: Copy workloadmgr policy.json
+    command: /bin/cp /opt/stack/workloadmgr/etc/workloadmgr/policy.json /etc/workloadmgr/
+
+  - name: Copy workloadmgr api-paste.ini
+    command: /bin/cp /opt/stack/workloadmgr/etc/workloadmgr/api-paste.ini /etc/workloadmgr/
+
+  - name: Copy workloadmgr rootwrap.conf
+    command: /bin/cp /opt/stack/workloadmgr/etc/workloadmgr/rootwrap.conf /etc/workloadmgr/
+
+  - name: Copy workloadmgr rootwrap files
+    command: /bin/cp -r /opt/stack/workloadmgr/etc/workloadmgr/rootwrap.d/ /etc/workloadmgr/
+

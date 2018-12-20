@@ -1,0 +1,15 @@
+unset OS_USERNAME
+unset OS_USER_DOMAIN_ID
+unset OS_PASSWORD
+unset OS_AUTH_URL
+unset OS_IDENTITY_API_VERSION
+unset OS_PROJECT_NAME
+unset OS_PROJECT_DOMAIN_ID
+export OS_USERNAME=cloud-admin
+export OS_TENANT_NAME=cloud-admin-project
+export OS_PASSWORD=password
+export OS_AUTH_URL=http://192.168.1.135:5000/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_DOMAIN_ID=4c0de2d116534c42bcfceffc6e947901
+export PROJECT_DOMAIN_NAME=admin
+

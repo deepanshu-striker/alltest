@@ -1,0 +1,92 @@
+#################################
+# Ip address of trilioVault controller node
+controller_node_ip=192.168.1.235
+
+# Hostname of trilioVault controller node
+controller_node_hostname=tvault-automation.trilio.test
+
+#Specify list of additional node ips to be configured, ips should be separated by single space
+#additional_nodes_list="192.168.1.233"
+##################
+# Configurator password
+configurator_password=password
+##################################################
+# Keystone admin point
+keystone_admin_url=http://192.168.1.58:35357/v2.0
+##################
+# Keystone public endpoint
+keystone_public_url=http://192.168.1.58:5000/v2.0
+######################
+#Keystone domain id
+domain_id=default
+#Role for creating keystone trust
+trustee_role=_member_
+#Admin user name
+admin_username=demo
+#######################
+# Admin password
+admin_password=49fb412572a64d2a
+#####################
+# Admin tenant name
+admin_tenant_name=demo
+##################
+# Openstack deployment region
+region_name=RegionOne
+#####################
+# DNS server settings, keep these settings empty if you don't have any nameserver (Don't comment)
+name_server=192.168.1.1
+domain_search_order=triliodata.demo
+
+###############################
+#Snapshot storage details, NFS/SWIFT/S3
+backup_target_type=S3
+################################
+#NFS options
+################################
+storage_nfs_export=
+
+################################
+#Swift options
+################################
+#TEMPAUTH or KEYSTONE
+swift_auth_version=
+################################
+# Below options valid for TEMPAUTH
+swift_auth_url=
+swift_username=
+swift_password=
+
+################################
+#S3 options
+################################
+#S3 Backend Type (Amazon, Redhat Ceph or Suse Ceph)
+s3_type=Amazon
+################################
+s3_access_key=6XFERYZL2C54LLBI09SN
+s3_secret_key=pamOEX4/CNJk3eZbFljm+dzhMbIC80ukY8rzcDGo
+s3_bucket=automation
+################################
+#Below option valid only for Amazon
+s3_region_name=
+################################
+#Below options valid for Redhat Ceph and Suse Ceph
+s3_endpoint_url=
+s3_ssl_enabled=False
+################################
+
+
+#Ntp and timezone settings
+ntp_enabled=off
+ntp_servers=ntp.org,ntp.org.hk
+timezone=Utc
+
+#SSL configuarions for wlm
+enable_tls=False
+cert_file_path="triliovault.cert"
+privatekey_file_path="triliovault.key"
+
+#Import existing workloads from backup target
+import_workloads=False
+
+#####You are done with configuration, following parameters are for internal use, please ignore them##########
+configured_additional_nodes=""

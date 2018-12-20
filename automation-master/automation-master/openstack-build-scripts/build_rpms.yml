@@ -1,0 +1,18 @@
+- hosts: '{{ host }}'
+
+  tasks:
+  - name: Copy build rpm build scripts
+    copy: src="{{playbook_dir}}/automation/contego-rpm-build-scripts/rpm/" dest=/home/rpm/ owner=root group=root mode=0755 force=yes
+
+  - name: build rpms
+    shell: /home/rpm/build_rpms.sh
+    environment:
+      TVAULT_VERSION: '{{ TVAULT_VERSION }}'
+      TVAULT_RELEASE: '{{ TVAULT_RELEASE }}'
+    args:
+      chdir: /home/rpm/
+
+  - find: paths="/var/www/html/yum-repo/" recurse=yes patterns="*.*"
+    register: files_to_copy
+  - fetch: src={{ item.path }} dest="{{playbook_dir}}/automation/"
+    with_items: "{{ files_to_copy.files }}"

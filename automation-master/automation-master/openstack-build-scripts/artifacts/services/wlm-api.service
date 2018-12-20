@@ -1,0 +1,15 @@
+# /etc/systemd/system/wlm-api.service
+[Unit]
+Description=workloadmanager api service
+After=wlm-api.service
+
+[Service]
+Type=simple
+User=nova
+ExecStart=/usr/local/bin/workloadmgr-api --config-file=/etc/workloadmgr/workloadmgr.conf
+KillMode=process
+Restart=on-failure
+WorkingDirectory=/var/run
+
+[Install]
+WantedBy=multi-user.target

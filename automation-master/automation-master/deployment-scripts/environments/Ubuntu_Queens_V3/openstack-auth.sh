@@ -1,0 +1,11 @@
+unset OS_USERNAME
+unset OS_TENANT_NAME
+unset OS_PASSWORD
+unset OS_AUTH_URL
+unset OS_IDENTITY_API_VERSION
+export OS_USERNAME=admin
+export OS_PASSWORD=password
+export OS_AUTH_URL=http://192.168.6.24:5000/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_PROJECT_NAME=admin
+export OS_TENANT_ID=4820a4aedbf54cdcab8716ba199d52d1

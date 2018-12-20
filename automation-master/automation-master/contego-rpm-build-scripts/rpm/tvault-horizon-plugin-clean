@@ -1,0 +1,2 @@
+rm -rf /usr/lib/python2.7/site-packages/tvault_horizon_plugin-*.egg-info
+rm -rf /usr/lib64/python2.7/site-packages/tvault_horizon_plugin-*.egg-info

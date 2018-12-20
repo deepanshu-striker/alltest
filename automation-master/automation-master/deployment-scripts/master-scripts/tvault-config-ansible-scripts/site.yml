@@ -1,0 +1,109 @@
+---
+
+- hosts: 127.0.0.1
+  connection: local
+  vars_files:
+    - vars/configure_vars.yml
+    - vars/vault.yml
+  vars:
+     create_file_system: off
+     storage_local_device: /dev/sdb
+     swift_url_template: 
+     swift_container_prefix: 
+
+  pre_tasks:
+    - debug: var=nodetype
+    - debug: var=controller_node_ip
+    - shell: curl -k 'https://{{ floating_ipaddress }}/landing_page_openstack'
+      register: res
+
+    - action: fail msg="Controller node is not valid"
+      when: res.stdout.find('Horizon Dashboard') == -1
+
+  tasks:
+  - name: login node
+    shell: curl -k --cookie-jar '{{ cookie }}' --data 'username={{ user_name }}&password={{ password }}' 'https://{{ floating_ipaddress }}/login'
+
+  - name: configure node data
+    shell: curl -k --cookie '{{ cookie }}' --data '{{ v1 }}={{ nodetype }}&{{ v2 }}={{ controller_node_ip }}&{{ v3 }}={{ admin_username }}&{{ v4 }}={{ admin_password }}&{{ v5 }}={{ admin_tenant_name }}&{{ v6 }}={{ keystone_admin_url }}&{{ v7 }}={{ keystone_public_url }}&{{ v8 }}={{ name_server }}&{{ v9 }}={{ domain_search_order}}&{{ v10 }}={{ region_name }}&{{ v17 }}={{ guest_name }}&{{ v11 }}={{ storage_type }}&{{ v12 }}={{ create_file_system }}&{{ v13 }}={{ storage_local_device }}&{{ v14 }}={{ storage_nfs_export }}&{{ v15 }}={{ swift_url_template }}&{{ v16 }}={{ swift_container_prefix }}&{{ v18 }}={{ domain_name }}&{{ v19 }}={{ ntp_enabled }}&{{ v20 }}={{ ntp_servers }}&{{ v21 }}={{ timezone }}&trustee-role={{ trustee_role }}' 'https://{{ floating_ipaddress }}/configure_openstack'
+    register: check
+  
+  - name: configure host
+    shell: curl -k --cookie '{{ cookie }}' 'https://{{ floating_ipaddress }}/configure_host'
+    ignore_errors: false
+    register: check
+
+  - action: fail msg="Error while configuring"
+    when: check.stdout.find('Success') == -1
+
+  - name: authenticate keystone
+    shell: curl -k --cookie '{{ cookie }}' 'https://{{ floating_ipaddress }}/authenticate_with_keystone'
+    ignore_errors: false
+    register: check
+
+  - action: fail msg="Error while configuring"
+    when: check.stdout.find('Success') == -1
+
+  - name: register service
+    shell: curl -k --cookie '{{ cookie }}' 'https://{{ floating_ipaddress }}/register_service'
+    ignore_errors: false
+    register: check
+
+  - action: fail msg="Error while configuring"
+    when: check.stdout.find('Success') == -1
+
+  - name: configure api
+    shell: curl -k --cookie '{{ cookie }}' 'https://{{ floating_ipaddress }}/configure_api'
+    ignore_errors: false
+    register: check
+
+  - action: fail msg="Error while configuring"
+    when: check.stdout.find('Success') == -1
+
+  - name: configure scheduler
+    shell: curl -k --cookie '{{ cookie }}' 'https://{{ floating_ipaddress }}/configure_scheduler'
+    ignore_errors: false
+    register: check
+
+  - action: fail msg="Error while configuring"
+    when: check.stdout.find('Success') == -1
+
+  - name: configure service
+    shell: curl -k --cookie '{{ cookie }}' 'https://{{ floating_ipaddress }}/configure_service'
+    ignore_errors: false
+    register: check
+
+  - action: fail msg="Error while configuring"
+    when: check.stdout.find('Success') == -1
+
+  - name: start api
+    shell: curl -k --cookie '{{ cookie }}' 'https://{{ floating_ipaddress }}/start_api'
+    ignore_errors: false
+    register: check
+
+  - action: fail msg="Error while configuring"
+    when: check.stdout.find('Success') == -1
+
+  - name: start scheduler
+    shell: curl -k --cookie '{{ cookie }}' 'https://{{ floating_ipaddress }}/start_scheduler'
+    ignore_errors: false
+    register: check
+
+  - action: fail msg="Error while configuring"
+    when: check.stdout.find('Success') == -1
+
+  - name: start service
+    shell: curl -k --cookie '{{ cookie }}' 'https://{{ floating_ipaddress }}/start_service'
+    ignore_errors: false
+    register: check
+
+  - action: fail msg="Error while configuring"
+    when: check.stdout.find('Success') == -1
+
+  - name: register workloadtypes
+    shell: curl -k --cookie '{{ cookie }}' 'https://{{ floating_ipaddress }}/register_workloadtypes'
+    ignore_errors: false
+    register: check
+
+  - action: fail msg="Error while configuring"
+    when: check.stdout.find('Success') == -1

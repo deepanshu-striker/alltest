@@ -1,0 +1,15 @@
+# /etc/systemd/system/tvault-object-store.service
+[Unit]
+Description=Tvault object store service
+After=tvault-object-store.service
+
+[Service]
+User=nova
+Type=simple
+ExecStart=/usr/bin/python /opt/stack/workloadmgr/workloadmgr/vault/vaultfuse.py --config-file=/etc/workloadmgr/workloadmgr.conf
+KillMode=process
+Restart=on-failure
+WorkingDirectory=/var/run
+
+[Install]
+WantedBy=multi-user.target

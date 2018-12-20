@@ -1,0 +1,12 @@
+unset OS_USER_DOMAIN_ID
+unset OS_IDENTITY_API_VERSION
+unset OS_DOMAIN_ID
+export OS_PROJECT_DOMAIN_ID=default
+export OS_USER_DOMAIN_ID=default
+export OS_PROJECT_NAME=demo
+export OS_TENANT_NAME=demo
+export OS_USERNAME=demo
+export OS_PASSWORD=49fb412572a64d2a
+export OS_AUTH_URL=http://192.168.1.58:35357/v3
+export OS_IMAGE_API_VERSION=2
+export OS_VOLUME_API_VERSION=2

@@ -1,0 +1,12 @@
+[controller]
+192.168.1.135
+
+[compute]
+192.168.1.135
+
+[horizon]
+192.168.1.135
+
+[localhost]
+127.0.0.1     ansible_connection=local
+

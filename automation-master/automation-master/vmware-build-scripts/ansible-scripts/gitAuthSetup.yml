@@ -1,0 +1,8 @@
+- hosts: webservers
+  tasks:
+  - copy: src="{{playbook_dir}}/artifacts/id_rsa.pub" dest=/root/.ssh/ owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/id_rsa" dest=/root/.ssh/ owner=root group=root mode=0600
+  - copy: src="{{playbook_dir}}/artifacts/id_rsa.pub" dest=/home/stack/.ssh/ owner=stack group=stack mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/id_rsa" dest=/home/stack/.ssh/ owner=stack group=stack mode=0600
+  - copy: src="{{playbook_dir}}/artifacts/id_rsa.pub" dest=/home/tvault-gui/.ssh/ owner=tvault-gui group=tvault-gui mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/id_rsa" dest=/home/tvault-gui/.ssh/ owner=tvault-gui group=tvault-gui mode=0600

@@ -1,0 +1,15 @@
+[build-vm]
+
+
+[controller]
+d00-0c-29-f7-79-e1
+
+[compute]
+d00-0c-29-3c-b2-c6
+
+[horizon]
+d00-0c-29-f7-79-e1
+
+[localhost]
+127.0.0.1     ansible_connection=local
+

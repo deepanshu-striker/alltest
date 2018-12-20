@@ -1,0 +1,9 @@
+flavor_name: tvault-build-flavor
+tvault_vm_name: tvault-build-vm
+image_name: tvault-build-img
+security_group_name: TVault
+key_name: controller-key
+fixed_network_id: c8e15bd8-a492-4130-b5b8-9b46804851d5
+floating_ip: 192.168.1.234
+old_build_file: /old-build/tvault-appliance-os.qcow2
+git_branch: v2.0

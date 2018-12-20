@@ -1,0 +1,10 @@
+auth:
+    auth_url: http://ubuntu-controller.triliodata.demo:35357/v3
+    username: admin
+    password: password
+    project_name: admin
+    project_domain_id: default
+    user_domain_id: default
+    tenant_name: admin
+image_api_version: 2
+volume_api_version: 2

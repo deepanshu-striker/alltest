@@ -1,0 +1,15 @@
+# /etc/systemd/system/wlm-workloads.service
+[Unit]
+Description=workloadmanager workloads service
+After=wlm-workloads.service
+
+[Service]
+Type=simple
+User=nova
+ExecStart=/usr/local/bin/workloadmgr-workloads --config-file=/etc/workloadmgr/workloadmgr.conf
+KillMode=process
+Restart=on-failure
+WorkingDirectory=/var/run
+
+[Install]
+WantedBy=multi-user.target

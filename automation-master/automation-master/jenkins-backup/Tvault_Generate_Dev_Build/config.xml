@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Generate new TVault build</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.synopsys.arc.jenkins.plugins.ownership.jobs.JobOwnerJobProperty plugin="ownership@0.8"/>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>MASTER_BRANCH</name>
+          <description>Git branch of previous Tvault build</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>master</string>
+              <string>v2.2</string>
+              <string>v2.3</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>TVAULT_IP</name>
+          <description>Trilio Vault IP</description>
+          <defaultValue>192.168.1.237</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>DEV_NAME</name>
+          <description>Developer name from where Dev build to be triggered</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>Murali</string>
+              <string>Jignasha</string>
+              <string>amitkumar-a4</string>
+              <string>Sonal</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>DEV_BRANCH_CONTEGO</name>
+          <description>Git branch of forked &apos;contego&apos; repo from which build should be generated</description>
+          <defaultValue>master</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>DEV_BRANCH_WORKLOADMGR</name>
+          <description>Git branch of forked &apos;workloadmgr&apos; repo from which build should be generated</description>
+          <defaultValue>master</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>DEV_BRANCH_WORKLOADMGR_CLIENT</name>
+          <description>Git branch of forked &apos;workloadmgr-client&apos; repo from which build should be generated</description>
+          <defaultValue>master</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>DEV_BRANCH_HORIZON</name>
+          <description>Git branch of forked &apos;horizon-tvault-plugin&apos; repo from which build should be generated</description>
+          <defaultValue>master</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>DEV_BRANCH_CONTEGOCLIENT</name>
+          <description>Git branch of forked &apos;contegoclient&apos; repo from which build should be generated</description>
+          <defaultValue>master</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <assignedNode>openstack-build-44</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+cp -r deployment-scripts/environments/build_setup openstack-build-scripts/
+cd openstack-build-scripts/
+pwd
+
+sed -i &apos;/floating_ip=/c floating_ip=&apos;$TVAULT_IP&apos;&apos; build_setup/build.properties
+sed -i &apos;/git_branch=/c git_branch=&apos;$GIT_BRANCH&apos;&apos; build_setup/build.properties
+
+sed -i &apos;/ .\/validate-build.sh/c # .\/validate-build.sh&apos; buildTVault.sh
+
+case &quot;$BASE_IMAGE_CHANGES&quot; in
+  Yes) echo &quot;$BASE_IMAGE_COMMANDS&quot; &gt;&gt; baseImage.sh;;
+  No)  continue;;
+esac
+
+case &quot;$BASE_IMAGE_DATABASE_UPDATE&quot; in
+  Yes) echo &quot;$BASE_IMAGE_DATABASE_COMMANDS&quot; &gt;&gt; dbCommands;;
+  No)  sed -i &apos;/\update_database.sh/c # .\/update_database.sh&apos; buildTVault.sh;;
+esac
+
+sed -i &apos;/floating_ip=/c floating_ip=&apos;$TVAULT_IP&apos;&apos; build_setup/build.properties
+sed -i &apos;/DRIVE_LOCATION=/c DRIVE_LOCATION=0B2Gn0JOD527TOUYyT0xfQzJzSTg&apos; build_setup/build.properties
+
+sed -i &apos;/TVAULT_VERSION/d&apos; build_setup/build.properties
+sed -i &apos;/PRE_OLD_VERSION_i/d&apos; build_setup/build.properties
+sed -i &apos;/OLD_VERSION_i/d&apos; build_setup/build.properties
+sed -i &apos;/NEW_VERSION_i/d&apos; build_setup/build.properties
+sed -i &apos;/OLD_VERSION/d&apos; build_setup/build.properties
+sed -i &apos;/git_branch/d&apos; build_setup/build.properties
+sed -i &apos;/old_branch/d&apos; build_setup/build.properties
+sed -i &apos;/DEV_USERNAME/d&apos; build_setup/build.properties
+sed -i &apos;/DEV_EMAIL/d&apos; build_setup/build.properties
+sed -i &apos;/git_branch_contego/d&apos; build_setup/build.properties
+sed -i &apos;/git_branch_workloadmgr/d&apos; build_setup/build.properties
+sed -i &apos;/git_branch_workloadmgr_client/d&apos; build_setup/build.properties
+sed -i &apos;/git_branch_horizon/d&apos; build_setup/build.properties
+sed -i &apos;/git_branch_contegoclient/d&apos; build_setup/build.properties
+
+ls /mnt/build-vault/${MASTER_BRANCH}/latest/ | grep tvault
+if [ $? -ne 0 ]
+then
+  echo &quot;Latest build is not available, please check the build store&quot;
+  exit 1
+fi
+
+export OLD_TVAULT_VERSION=`ls /mnt/build-vault/${MASTER_BRANCH}/latest/ | cut -f 4 -d &apos;-&apos; | cut -f 1,2,3 -d &apos;.&apos;`
+
+p=(${OLD_TVAULT_VERSION//./ })
+
+p1=${p[0]}
+p2=${p[1]}
+old_build_number=${p[2]}
+build_number=`expr $old_build_number + 1`
+pre_old_build_number=`expr $build_number - 2`
+
+export PRE_OLD_VERSION_i=&quot;${p1}_${p2}_$pre_old_build_number&quot;
+export OLD_VERSION_i=&quot;${p1}_${p2}_$old_build_number&quot;
+export NEW_VERSION_i=&quot;${p1}_${p2}_$build_number&quot;
+export OLD_VERSION=&quot;${p1}.${p2}.$old_build_number&quot;
+export TVAULT_VERSION=&quot;${p1}.${p2}.$old_build_number&quot;
+
+echo &quot;TVAULT_VERSION=$TVAULT_VERSION&quot; &gt;&gt; build_setup/build.properties
+echo &quot;PRE_OLD_VERSION_i=$PRE_OLD_VERSION_i&quot; &gt;&gt; build_setup/build.properties
+echo &quot;OLD_VERSION_i=$OLD_VERSION_i&quot; &gt;&gt; build_setup/build.properties
+echo &quot;NEW_VERSION_i=$NEW_VERSION_i&quot; &gt;&gt; build_setup/build.properties
+echo &quot;OLD_VERSION=$OLD_VERSION&quot;  &gt;&gt; build_setup/build.properties
+
+echo &quot;old_branch=$MASTER_BRANCH&quot; &gt;&gt; build_setup/build.properties
+echo &quot;DEV_USERNAME=$DEV_NAME&quot; &gt;&gt; build_setup/build.properties
+echo &quot;git_branch_contego=$DEV_BRANCH_CONTEGO&quot; &gt;&gt; build_setup/build.properties
+echo &quot;git_branch_workloadmgr=$DEV_BRANCH_WORKLOADMGR&quot; &gt;&gt; build_setup/build.properties
+echo &quot;git_branch_workloadmgr_client=$DEV_BRANCH_WORKLOADMGR_CLIENT&quot; &gt;&gt; build_setup/build.properties
+echo &quot;git_branch_horizon=$DEV_BRANCH_HORIZON&quot; &gt;&gt; build_setup/build.properties
+echo &quot;git_branch_contegoclient=$DEV_BRANCH_CONTEGOCLIENT&quot; &gt;&gt; build_setup/build.properties
+
+
+case &quot;$DEV_NAME&quot; in
+  amitkumar-a4) echo &quot;DEV_EMAIL=amit.kumar@triliodata.com&quot; &gt;&gt; build.properties;;
+  *) echo &quot;DEV_EMAIL=savita.peri@triliodata.com&quot; &gt;&gt; build.properties;;
+esac
+
+./buildTVault_dev.sh
+if [ $? -ne 0 ]
+then
+  exit 1
+fi</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

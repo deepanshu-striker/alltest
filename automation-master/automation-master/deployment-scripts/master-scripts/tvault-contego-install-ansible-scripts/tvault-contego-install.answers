@@ -1,0 +1,36 @@
+####IP address of Tvault appliance###
+
+
+IP_ADDRESS=192.168.1.235
+
+#Nova compute.filters file path
+
+#Uncomment following line as per the OS distribution, you can edit the path as per your nova configuration
+
+###For RHEL systems
+
+##NOVA_COMPUTE_FILTERS_FILE=/usr/share/nova/rootwrap/compute.filters
+
+###For Debian systems
+
+NOVA_COMPUTE_FILTERS_FILE=/etc/nova/rootwrap.d/compute.filters
+
+
+##For any other system
+
+##NOVA_COMPUTE_FILTERS_FILE=
+
+
+##### Select snapshot storage type #####
+
+#Uncomment following lines and edit for NFS as snapshot storage
+
+NFS=True
+
+NFS_SHARES=192.168.1.33:/mnt/tvault,192.168.1.33:/mnt/tvault_1
+
+
+#### Uncomment following lines and edit for Swift as snapshot storage
+
+#Swift=False
+

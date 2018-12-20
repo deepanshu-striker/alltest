@@ -1,0 +1,70 @@
+- hosts: 127.0.0.1
+  connection: local
+  vars_files:
+   - vars/tvault-contego-answers.yml
+
+  tasks:
+  - name: Clean existing tvault-contego install file
+    file: path="{{playbook_dir}}/tvault-contego-install.sh" state=absent
+
+  - name: Download tvault-contego install file
+    get_url: url="http://{{IP_ADDRESS}}/tvault-contego-install.sh" dest="{{playbook_dir}}/" mode=0700 validate_certs=no
+
+  - name: Create property file
+    copy: src="{{playbook_dir}}/vars/tvault-contego-answers.yml" dest="{{playbook_dir}}/tvault-contego-install.answers" mode=0750
+
+  - name: Format answers file
+    replace: dest="{{playbook_dir}}/tvault-contego-install.answers" regexp='\:\s' replace='='
+
+
+- hosts: compute
+
+  tasks:
+  - name: Create TVault nova extension directory
+    file: path="{{ ansible_env.HOME}}/tvault-nova-extension" state=directory mode=0750
+    
+  - name: Copy install script to TVault nova extension directory
+    copy: src="{{playbook_dir}}/tvault-contego-install.sh" dest="{{ ansible_env.HOME}}/tvault-nova-extension" mode=0550
+
+  - name: Copy answers file to TVault nova extension directory
+    copy: src="{{playbook_dir}}/tvault-contego-install.answers" dest="{{ ansible_env.HOME}}/tvault-nova-extension"
+
+  - name: Copy answers file to TVault nova extension directory
+    lineinfile: dest="{{ ansible_env.HOME}}/tvault-nova-extension/tvault-contego-install.answers" state=present line="compute=True"
+
+  - name: Copy answers file to TVault nova extension directory
+    lineinfile: dest="{{ ansible_env.HOME}}/tvault-nova-extension/tvault-contego-install.answers" state=absent line="controller=True"
+
+  - name: Install TVault Nova Extension
+    shell: ./tvault-contego-install.sh --install --file tvault-contego-install.answers > tvault-contego-install.log chdir="{{ ansible_env.HOME}}/tvault-nova-extension"
+    register: result
+    failed_when: result.rc == 1
+
+  - name: Collect logs
+    fetch: src="{{ ansible_env.HOME}}/tvault-nova-extension/tvault-contego-install.log" dest="{{playbook_dir}}/logs/{{ ansible_hostname }}/" flat=yes
+
+
+- hosts: controller
+  tasks:
+  - name: Create TVault nova extension directory
+    file: path="{{ ansible_env.HOME}}/tvault-nova-extension" state=directory mode=0750
+
+  - name: Copy install script to TVault nova extension directory
+    copy: src="{{playbook_dir}}/tvault-contego-install.sh" dest="{{ ansible_env.HOME}}/tvault-nova-extension" mode=0550
+
+  - name: Copy answers file to TVault nova extension directory
+    copy: src="{{playbook_dir}}/tvault-contego-install.answers" dest="{{ ansible_env.HOME}}/tvault-nova-extension"
+
+  - name: Copy answers file to TVault nova extension directory
+    lineinfile: dest="{{ ansible_env.HOME}}/tvault-nova-extension/tvault-contego-install.answers" state=absent line="compute=True"
+
+  - name: Copy answers file to TVault nova extension directory
+    lineinfile: dest="{{ ansible_env.HOME}}/tvault-nova-extension/tvault-contego-install.answers" state=present line="controller=True"
+
+  - name: Install TVault Nova Extension
+    shell: ./tvault-contego-install.sh --install --file tvault-contego-install.answers > tvault-contego-install.log chdir="{{ ansible_env.HOME}}/tvault-nova-extension"
+    register: result
+    failed_when: result.rc == 1
+
+  - name: Collect logs
+    fetch: src="{{ ansible_env.HOME}}/tvault-nova-extension/tvault-contego-install.log" dest="{{playbook_dir}}/logs/{{ ansible_hostname }}/" flat=yes

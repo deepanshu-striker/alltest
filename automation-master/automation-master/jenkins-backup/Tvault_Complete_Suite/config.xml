@@ -1,0 +1,521 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>7</daysToKeep>
+        <numToKeep>25</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <com.synopsys.arc.jenkins.plugins.ownership.jobs.JobOwnerJobProperty plugin="ownership@0.8"/>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>TVAULTBUILD_NUMBER</name>
+          <description>Tvault Build Version on which tests should be run</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>GIT_BRANCH</name>
+          <description>Git branch of the Tvault build</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>master</string>
+              <string>v2.2</string>
+              <string>v2.3.4</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>TVAULT_IP</name>
+          <description>Trilio Vault IP</description>
+          <defaultValue>192.168.1.234</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>CONTROLLER_IP</name>
+          <description>OpenStack Controller IP</description>
+          <defaultValue>192.168.1.58</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>COMPUTE_IP</name>
+          <description>OpenStack Compute IP</description>
+          <defaultValue>192.168.1.58</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>TENANT_NAME</name>
+          <description>OpenStack Tenant Name</description>
+          <defaultValue>demo</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.PasswordParameterDefinition>
+          <name>TENANT_PASSWORD</name>
+          <description>OpenStack Tenant Password</description>
+          <defaultValue>Lopu9eV4cW/pD+dK9UvjsDDTkGc3AP4ScP6oOh8syzI=</defaultValue>
+        </hudson.model.PasswordParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>TENANT_ID</name>
+          <description>OpenStack Tenant ID</description>
+          <defaultValue>32b05fc79cfd43bcbb3a1020fd4aa8fc</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>VOLUME_TYPE</name>
+          <description>OpenStack Volume Type ID</description>
+          <defaultValue>e955feb4-967e-46f0-baa3-526d9d60d064</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>PUBLIC_ROUTER_ID</name>
+          <description>OpenStack Router ID</description>
+          <defaultValue>d577b2dc-0233-4cfa-9916-66532afb3dae</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>INTERNAL_NETWORK_ID</name>
+          <description>OpenStack Internal Network ID</description>
+          <defaultValue>284b6315-53d7-4b68-b279-dfd97ff12e81</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>AVAILABILITY_ZONE</name>
+          <description>Availability Zone of OpenStack setup</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>IMAGE_REF</name>
+          <description>Cirros Image ID</description>
+          <defaultValue>172357f0-d647-49db-94e5-e248949b11ce</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>AUTH_URL</name>
+          <description>Openstack Authentication URL</description>
+          <defaultValue>http://192.168.1.58:5000/v2.0</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>KEYSTONE_ADMIN_URL</name>
+          <description>Keystone Admin URL required for Tvault configuration</description>
+          <defaultValue>http://192.168.1.58:35357/v2.0</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>KEYSTONE_PUBLIC_URL</name>
+          <description>Keystone Public URL required for Tvault configuration</description>
+          <defaultValue>http://192.168.1.58:5000/v2.0</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>NON_ADMIN_TENANT</name>
+          <description>Non Admin Tenant Name</description>
+          <defaultValue>demo</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.PasswordParameterDefinition>
+          <name>NON_ADMIN_TENANT_PWD</name>
+          <description>Non Admin Tenant Password</description>
+          <defaultValue>Lopu9eV4cW/pD+dK9UvjsDDTkGc3AP4ScP6oOh8syzI=</defaultValue>
+        </hudson.model.PasswordParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>COMPUTE_NODE_TYPE</name>
+          <description>Compute Node Operating System </description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>RHEL_Based</string>
+              <string>Debian_Based</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.75">
+          <name>BACKUP_TARGET_TYPE</name>
+          <description>Backup target types for Tvault</description>
+          <quoteValue>false</quoteValue>
+          <saveJSONParameterToFile>false</saveJSONParameterToFile>
+          <visibleItemCount>10</visibleItemCount>
+          <type>PT_CHECKBOX</type>
+          <value>NFS,Swift-KeystoneV2,Swift-KeystoneV3,Swift-Tempauth</value>
+          <defaultValue>NFS,Swift-Tempauth</defaultValue>
+          <multiSelectDelimiter>,</multiSelectDelimiter>
+          <projectName>Tvault_Complete_Suite</projectName>
+        </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>STORAGE_NFS_EXPORT</name>
+          <description>NFS storage details</description>
+          <defaultValue>192.168.1.33:/mnt/tvault</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>SWIFT_AUTH_URL</name>
+          <description>Swift Authentication URL</description>
+          <defaultValue>http://192.168.1.98/auth/v1.0</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>SWIFT_USERNAME</name>
+          <description>Swift Username</description>
+          <defaultValue>tvault</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.PasswordParameterDefinition>
+          <name>SWIFT_PASSWORD</name>
+          <description>Swift Password</description>
+          <defaultValue>REp1YQH3LRWr4LNDfe0ZRR2HYI3Pa1BpvhzVeahK5D8=</defaultValue>
+        </hudson.model.PasswordParameterDefinition>
+        <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.75">
+          <name>TEST_SUITES</name>
+          <description>Test Suites to be executed</description>
+          <quoteValue>false</quoteValue>
+          <saveJSONParameterToFile>false</saveJSONParameterToFile>
+          <visibleItemCount>10</visibleItemCount>
+          <type>PT_CHECKBOX</type>
+          <value>cli,integration</value>
+          <defaultValue>cli</defaultValue>
+          <multiSelectDelimiter>,</multiSelectDelimiter>
+          <projectName>Tvault_Complete_Suite</projectName>
+        </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>CREATE_TEST_ENV</name>
+          <description>Select &apos;Yes&apos; to create a new Tvault VM for test execution
+Select &apos;No&apos; to execute tests on existing Tvault VM</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>Yes</string>
+              <string>No</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+        <hudson.model.ChoiceParameterDefinition>
+          <name>RUN_TVAULT_CONFIG</name>
+          <description>Select &apos;Yes&apos; to configure Tvault with specified Openstack setup
+Select &apos;No&apos; to skip Tvault configuration</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>Yes</string>
+              <string>No</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <assignedNode>Automation_119</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>pwd
+BASE_DIR=$PWD
+cd automation/openstack-build-scripts/
+pwd
+export COMPUTE_PASSWD=Password1!
+export CONTROLLER_PWD=Password1!
+
+echo -e &quot;[build-vm]\n$TVAULT_IP\n&quot; &gt; /etc/ansible/hosts
+echo -e &quot;[controller]\n$CONTROLLER_IP\n&quot; &gt;&gt; /etc/ansible/hosts
+echo -e &quot;[compute]\n$COMPUTE_IP\n&quot; &gt;&gt; /etc/ansible/hosts
+if [ &quot;$CONTROLLER_IP&quot; != &quot;$COMPUTE_IP&quot; ]
+then
+   echo -e &quot;$COMPUTE_IP\n&quot; &gt;&gt; /etc/ansible/hosts
+fi
+echo -e &quot;[horizon]\n$CONTROLLER_IP\n&quot; &gt;&gt; /etc/ansible/hosts
+echo -e &quot;[localhost]\n127.0.0.1&quot; &gt;&gt; /etc/ansible/hosts
+
+#Mount NFS Share
+if mountpoint -q /mnt/build-vault
+then
+   echo &quot;NFS already mounted&quot;
+else
+   echo &quot;NFS not mounted. Mounting..&quot;
+   mkdir -p /mnt/build-vault
+   mount -t nfs 192.168.1.20:/mnt/build-vault /mnt/build-vault
+   if [ $? -ne 0 ]
+   then
+     echo &quot;Error occured in NFS mount, exiting..&quot;
+     exit 1
+   fi
+fi
+
+if [ &quot;$TVAULTBUILD_NUMBER&quot; == &quot;&quot; ]
+then
+   TVAULT_BUILD_NUMBER=`ls /mnt/build-vault/${GIT_BRANCH}/latest/ | cut -f 4 -d &apos;-&apos; | cut -f 1,2,3 -d &apos;.&apos;`
+else
+   TVAULT_BUILD_NUMBER=$TVAULTBUILD_NUMBER
+fi
+echo $TVAULT_BUILD_NUMBER
+
+sed -i -e &apos;s/admin/&apos;$TENANT_NAME&apos;/g&apos; openstack-auth.sh
+sed -i &apos;/OS_PASSWORD=/c export OS_PASSWORD=&apos;$TENANT_PASSWORD&apos;&apos; openstack-auth.sh
+sed -i &apos;/OS_AUTH_URL=/c export OS_AUTH_URL=&apos;$AUTH_URL&apos;&apos; openstack-auth.sh
+
+sed -i &apos;/floating_ip=/c floating_ip=&apos;$TVAULT_IP&apos;&apos; build_setup/build.properties
+sed -i &apos;/git_branch=/c git_branch=&apos;$GIT_BRANCH&apos;&apos; build_setup/build.properties
+sed -i &apos;/TVAULT_VERSION=/c TVAULT_VERSION=&apos;$TVAULT_BUILD_NUMBER&apos;&apos; build_setup/build.properties
+
+sed -i &apos;/controller_node_ip=/c controller_node_ip=&apos;$TVAULT_IP&apos;&apos; build_setup/tvault-config.answers
+
+sed -i &apos;/IP_ADDRESS: /c IP_ADDRESS: &apos;$TVAULT_IP&apos;&apos; build_setup/tvault-contego-answers.yml
+
+sed -i &apos;/TVAULTAPP: /c TVAULTAPP: &apos;$TVAULT_IP&apos;&apos; build_setup/tvault-horizon-plugin-answers.yml
+
+cd ../../
+pwd
+
+sed -i &apos;/username/c - username: &apos;\&apos;$NON_ADMIN_TENANT\&apos; etc/accounts.yaml
+sed -i &apos;/tenant_name/c tenant_name: &apos;\&apos;$NON_ADMIN_TENANT\&apos; etc/accounts.yaml
+sed -i &apos;/password/c password: &apos;\&apos;$NON_ADMIN_TENANT_PWD\&apos; etc/accounts.yaml
+
+sed -i &apos;/image_ref =/c image_ref = &apos;$IMAGE_REF&apos;&apos; etc/tempest.conf
+sed -i &apos;/admin_tenant_id =/c admin_tenant_id = &apos;$TENANT_ID&apos;&apos; etc/tempest.conf
+sed -i -e &apos;s/demo/&apos;$NON_ADMIN_TENANT&apos;/g&apos; etc/tempest.conf
+sed -i &apos;/admin_password =/c admin_password = &apos;$TENANT_PASSWORD&apos;&apos; etc/tempest.conf
+sed -i &apos;/alt_password =/c alt_password = &apos;$TENANT_PASSWORD&apos;&apos; etc/tempest.conf
+sed -i &apos;/^password =/c password = &apos;$TENANT_PASSWORD&apos;&apos; etc/tempest.conf
+sed -i -e &apos;s/192.168.1.111/&apos;$CONTROLLER_IP&apos;/g&apos; etc/tempest.conf
+sed -i &apos;/public_router_id =/c public_router_id = &apos;$PUBLIC_ROUTER_ID&apos;&apos; etc/tempest.conf
+sed -i &apos;/public_network_id =/c public_network_id = &apos;$INTERNAL_NETWORK_ID&apos;&apos; etc/tempest.conf
+sed -i &apos;/admin_username =/c admin_username = &apos;$TENANT_NAME&apos;&apos; etc/tempest.conf
+sed -i &apos;/os_tenant_id =/c os_tenant_id = &apos;$TENANT_ID&apos;&apos; etc/tempest.conf
+
+sed -i &apos;/volume_type=/c volume_type=\&quot;&apos;$VOLUME_TYPE&apos;&quot;&apos; tempest/tvaultconf.py
+sed -i &apos;/tvault_ip =/c tvault_ip = \&quot;&apos;$TVAULT_IP&apos;&quot;&apos; tempest/tvaultconf.py
+sed -i &apos;/compute_ip =/c compute_ip = \&quot;&apos;$COMPUTE_IP&apos;&quot;&apos; tempest/tvaultconf.py
+sed -i &apos;/internal_network_id =/c internal_network_id = \&quot;&apos;$INTERNAL_NETWORK_ID&apos;&quot;&apos; tempest/tvaultconf.py
+
+SUITE_LIST=&quot;&quot;
+cnt=0
+IFS=&apos;,&apos; read -ra SUITES &lt;&lt;&lt; &quot;$TEST_SUITES&quot;
+for i in &quot;${SUITES[@]}&quot;; do
+   if [ $cnt -eq 0 ]
+   then
+      SUITE_LIST=&quot;(&quot;&quot;\&quot;&quot;&quot;tempest.api.workloadmgr.&quot;$i&quot;\&quot;&quot;
+   else
+      SUITE_LIST=$SUITE_LIST&quot; \&quot;&quot;&quot;tempest.api.workloadmgr.&quot;$i&quot;\&quot;&quot;
+   fi
+   cnt=`expr $cnt + 1`
+done
+SUITE_LIST=$SUITE_LIST&quot;)&quot;
+sed -i &apos;/SUITE_LIST=/c SUITE_LIST=&apos;&quot;$SUITE_LIST&quot;&apos;&apos; master-run.sh
+
+cd $BASE_DIR/automation/openstack-build-scripts
+case &quot;$CREATE_TEST_ENV&quot; in
+   Yes) ./setTestEnv.sh
+        if [ $? -ne 0 ]
+        then
+          exit 1
+        fi;;
+   No) continue;;
+esac
+
+echo &quot;Starting Tvault configuration..&quot;
+
+cd $BASE_DIR/automation/openstack-build-scripts
+sed -i &apos;/fixed_network_id=/c fixed_network_id=&apos;$INTERNAL_NETWORK_ID&apos;&apos; build.properties
+sed -i &apos;/floating_ip=/c floating_ip=&apos;$TVAULT_IP&apos;&apos; build.properties
+sed -i &apos;/compute_node_ip=/c compute_node_ip=&apos;$COMPUTE_IP&apos;&apos; build.properties
+sed -i &apos;/compute_node_password=/c compute_node_password=&quot;&apos;$COMPUTE_PASSWD&apos;&quot;&apos; build.properties
+sed -i &apos;/git_branch=/c git_branch=&apos;$GIT_BRANCH&apos;&apos; build.properties
+sed -i &apos;/TVAULT_VERSION=/c TVAULT_VERSION=&apos;$TVAULT_BUILD_NUMBER&apos;&apos; build.properties
+
+sed -i &apos;/controller_node_ip=/c controller_node_ip=&apos;$TVAULT_IP&apos;&apos; ../master-scripts/tvault-config.answers
+sed -i &apos;/keystone_admin_url=/c keystone_admin_url=&apos;$KEYSTONE_ADMIN_URL&apos;&apos; ../master-scripts/tvault-config.answers
+sed -i &apos;/keystone_public_url=/c keystone_public_url=&apos;$KEYSTONE_PUBLIC_URL&apos;&apos; ../master-scripts/tvault-config.answers
+sed -i &apos;/admin_username=/c admin_username=&apos;$TENANT_NAME&apos;&apos; ../master-scripts/tvault-config.answers
+sed -i &apos;/admin_password=/c admin_password=&apos;$TENANT_PASSWORD&apos;&apos; ../master-scripts/tvault-config.answers
+sed -i &apos;/admin_tenant_name=/c admin_tenant_name=&apos;$TENANT_NAME&apos;&apos; ../master-scripts/tvault-config.answers
+
+case &quot;$COMPUTE_NODE_TYPE&quot; in
+  RHEL_Based) echo &quot;NOVA_COMPUTE_FILTERS_FILE: /usr/share/nova/rootwrap/compute.filters&quot; &gt;&gt; ../master-scripts/tvault-contego-answers.yml;;
+  Debian_Based) echo &quot;NOVA_COMPUTE_FILTERS_FILE: /etc/nova/rootwrap.d/compute.filters&quot; &gt;&gt; ../master-scripts/tvault-contego-answers.yml;;
+esac
+
+sed -i &apos;/IP_ADDRESS: /c IP_ADDRESS: &apos;$TVAULT_IP&apos;&apos; ../master-scripts/tvault-contego-answers.yml
+sed -i &apos;/TVAULTAPP: /c TVAULTAPP: &apos;$TVAULT_IP&apos;&apos; ../master-scripts/tvault-horizon-plugin-answers.yml
+
+#Generate SSH key
+ssh-keygen -R $COMPUTE_IP
+sleep 5s
+
+./copy_ssh_key.expect root $COMPUTE_PASSWD $COMPUTE_IP
+if [ $? -ne 0 ]
+then
+  exit 1
+fi
+sleep 5s
+
+cd /opt/stack
+easy_install http://$TVAULT_IP:8081/packages/pip-7.1.2.tar.gz
+if [ $? -ne 0 ]
+then
+  echo &quot;Unable to install pip, exiting\n&quot; &gt;&gt; $RESULTS_FILE
+  continue
+fi
+   
+pip install http://$TVAULT_IP:8081/packages/python-workloadmgrclient-$TVAULT_BUILD_NUMBER.tar.gz
+if [ $? -ne 0 ]
+then
+  echo &quot;Unable to install python-workloadmgr-client, exiting\n&quot; &gt;&gt; $RESULTS_FILE
+  continue
+fi
+
+cd $BASE_DIR
+#Create Virtual environment
+python tools/install_venv.py
+
+cd $BASE_DIR
+IFS=&apos;,&apos; read -ra STORAGE &lt;&lt;&lt; &quot;$BACKUP_TARGET_TYPE&quot;
+for i in &quot;${STORAGE[@]}&quot;; do
+   RESULTS_FILE=&quot;test_results_log_&quot;$i
+   TEST_RESULTS_FILE=&quot;test_results_&quot;$i
+   sed -i &apos;/TEST_RESULTS_FILE=/c TEST_RESULTS_FILE=&quot;&apos;$TEST_RESULTS_FILE&apos;&quot;&apos; master-run.sh
+   echo &quot;------------------------------$i-------------------------------&quot; &gt;&gt; $RESULTS_FILE
+   cd $BASE_DIR/automation/openstack-build-scripts/
+   case &quot;$i&quot; in
+      NFS) sed -i &apos;/backup_target_type=/c backup_target_type=NFS&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/storage_nfs_export=/c storage_nfs_export=&apos;$STORAGE_NFS_EXPORT&apos;&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_auth_version/c swift_auth_version=&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_auth_url/c swift_auth_url=&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_username/c swift_username=&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_password/c swift_password=&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/NFS:/c NFS: True&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/Swift:/c Swift: False&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/NFS_SHARES: /c NFS_SHARES: &apos;$STORAGE_NFS_EXPORT&apos;&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_AUTH_VERSION: /c VAULT_SWIFT_AUTH_VERSION: &apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_AUTH_URL: /c VAULT_SWIFT_AUTH_URL: &apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_USERNAME: /c VAULT_SWIFT_USERNAME: &apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_PASSWORD: /c VAULT_SWIFT_PASSWORD: &apos; ../master-scripts/tvault-contego-answers.yml;;
+     &quot;Swift-KeystoneV2&quot;) sed -i &apos;/backup_target_type=/c backup_target_type=SWIFT&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/storage_nfs_export=/c storage_nfs_export=&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_auth_version/c swift_auth_version=KEYSTONE&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_auth_url/c swift_auth_url=&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_username/c swift_username=&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_password/c swift_password=&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/NFS:/c NFS: False&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/Swift:/c Swift: True&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/NFS_SHARES: /c NFS_SHARES: &apos;$STORAGE_NFS_EXPORT&apos;&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_AUTH_VERSION: /c VAULT_SWIFT_AUTH_VERSION: KEYSTONEV2&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_AUTH_URL: /c VAULT_SWIFT_AUTH_URL: &apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_USERNAME: /c VAULT_SWIFT_USERNAME: &apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_PASSWORD: /c VAULT_SWIFT_PASSWORD: &apos; ../master-scripts/tvault-contego-answers.yml;;
+      &quot;Swift-KeystoneV3&quot;) sed -i &apos;/backup_target_type=/c backup_target_type=SWIFT&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/storage_nfs_export=/c storage_nfs_export=&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_auth_version/c swift_auth_version=KEYSTONE&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_auth_url/c swift_auth_url=&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_username/c swift_username=&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_password/c swift_password=&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/NFS:/c NFS: False&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/Swift:/c Swift: True&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/NFS_SHARES: /c NFS_SHARES: &apos;$STORAGE_NFS_EXPORT&apos;&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_AUTH_VERSION: /c VAULT_SWIFT_AUTH_VERSION: KEYSTONEV3&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_AUTH_URL: /c VAULT_SWIFT_AUTH_URL: &apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_USERNAME: /c VAULT_SWIFT_USERNAME: &apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_PASSWORD: /c VAULT_SWIFT_PASSWORD: &apos; ../master-scripts/tvault-contego-answers.yml;;
+       &quot;Swift-Tempauth&quot;) sed -i &apos;/backup_target_type=/c backup_target_type=SWIFT&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/storage_nfs_export=/c storage_nfs_export=&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_auth_version/c swift_auth_version=TEMPAUTH&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_auth_url/c swift_auth_url=&apos;$SWIFT_AUTH_URL&apos;&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_username/c swift_username=&apos;$SWIFT_USERNAME&apos;&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/swift_password/c swift_password=&apos;$SWIFT_PASSWORD&apos;&apos; ../master-scripts/tvault-config.answers
+           sed -i &apos;/NFS:/c NFS: False&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/Swift:/c Swift: True&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/NFS_SHARES: /c NFS_SHARES: &apos;$STORAGE_NFS_EXPORT&apos;&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_AUTH_VERSION: /c VAULT_SWIFT_AUTH_VERSION: TEMPAUTH&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_AUTH_URL: /c VAULT_SWIFT_AUTH_URL: &apos;$SWIFT_AUTH_URL&apos;&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_USERNAME: /c VAULT_SWIFT_USERNAME: &apos;$SWIFT_USERNAME&apos;&apos; ../master-scripts/tvault-contego-answers.yml
+           sed -i &apos;/VAULT_SWIFT_PASSWORD: /c VAULT_SWIFT_PASSWORD: &apos;$SWIFT_PASSWORD&apos;&apos; ../master-scripts/tvault-contego-answers.yml;;
+   esac
+   
+   cp $BASE_DIR/automation/master-scripts/tvault-contego-answers.yml  $BASE_DIR/automation/openstack-build-scripts/vars/
+
+   #Uninstall existing Tvault-contego
+   ansible-playbook tvault-contego-uninstall.yml
+   if [ $? -ne 0 ]
+   then
+     echo -e &quot;Uninstall existing tvault-contego failed, exiting\n&quot; &gt;&gt; $RESULTS_FILE
+     continue
+   else
+     echo &quot;Uninstall existing tvault-contego successful&quot;
+   fi
+  
+   cd $BASE_DIR/automation/master-scripts
+   ./master-install.sh --all
+   if [ $? -ne 0 ]
+   then
+      echo &quot;Unable to complete Tvault configuration, exiting..\n&quot; &gt;&gt; $RESULTS_FILE
+      continue
+   else
+      echo &quot;Tvault configuration complete..&quot;
+   fi
+
+   pwd
+   cd $BASE_DIR
+   ./master-run.sh
+   if [ $? -ne 0 ]
+   then
+     echo &quot;Error in master-run.sh, exiting\n&quot; &gt;&gt; $RESULTS_FILE
+     mv logs $i&quot;-logs&quot;
+     continue
+   fi
+done</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <htmlpublisher.HtmlPublisher plugin="htmlpublisher@1.11">
+      <reportTargets>
+        <htmlpublisher.HtmlPublisherTarget>
+          <reportName>HTML Test Report</reportName>
+          <reportDir>Report</reportDir>
+          <reportFiles>results.html</reportFiles>
+          <alwaysLinkToLastBuild>false</alwaysLinkToLastBuild>
+          <keepAll>true</keepAll>
+          <allowMissing>false</allowMissing>
+        </htmlpublisher.HtmlPublisherTarget>
+      </reportTargets>
+    </htmlpublisher.HtmlPublisher>
+    <org.jenkinsci.plugins.postbuildscript.PostBuildScript plugin="postbuildscript@0.17">
+      <buildSteps>
+        <hudson.tasks.Shell>
+          <command>pwd
+echo $BUILD_NUMBER
+./copy_logs.sh $BUILD_NUMBER
+if [ $? -ne 0 ]
+then
+  exit 0
+fi</command>
+        </hudson.tasks.Shell>
+      </buildSteps>
+      <scriptOnlyIfSuccess>true</scriptOnlyIfSuccess>
+      <scriptOnlyIfFailure>false</scriptOnlyIfFailure>
+      <markBuildUnstable>false</markBuildUnstable>
+    </org.jenkinsci.plugins.postbuildscript.PostBuildScript>
+    <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.41">
+      <recipientList>savita.peri@triliodata.com</recipientList>
+      <configuredTriggers>
+        <hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
+          <email>
+            <recipientList></recipientList>
+            <subject>$PROJECT_DEFAULT_SUBJECT</subject>
+            <body>$PROJECT_DEFAULT_CONTENT</body>
+            <recipientProviders>
+              <hudson.plugins.emailext.plugins.recipients.ListRecipientProvider/>
+            </recipientProviders>
+            <attachmentsPattern></attachmentsPattern>
+            <attachBuildLog>false</attachBuildLog>
+            <compressBuildLog>false</compressBuildLog>
+            <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
+            <contentType>project</contentType>
+          </email>
+        </hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
+      </configuredTriggers>
+      <contentType>default</contentType>
+      <defaultSubject>Tvault Automation Test Report - Build $TVAULT_BUILD_NUMBER - Jenkins job $BUILD_NUMBER</defaultSubject>
+      <defaultContent>$DEFAULT_CONTENT</defaultContent>
+      <attachmentsPattern></attachmentsPattern>
+      <presendScript>def reportPath = build.getWorkspace().child(&quot;Report/results.html&quot;)
+msg.addHeader(&quot;Storage Type&quot;,&quot;$STORAGE_TYPE&quot;)
+msg.setContent(reportPath.readToString(), &quot;text/html&quot;);</presendScript>
+      <attachBuildLog>false</attachBuildLog>
+      <compressBuildLog>false</compressBuildLog>
+      <replyTo>savita.peri@triliodata.com,shyam.biradar@triliodata.com</replyTo>
+      <saveOutput>false</saveOutput>
+      <disabled>false</disabled>
+    </hudson.plugins.emailext.ExtendedEmailPublisher>
+  </publishers>
+  <buildWrappers/>
+</project>

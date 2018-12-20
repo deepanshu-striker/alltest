@@ -1,0 +1,26 @@
+- hosts: '{{ host }}'
+
+  tasks:
+  - name: delete /home/debian directory
+    file: path="/home/debian" state=absent 
+
+  - name: delete /var/www/html/deb-repo/deb-repo directory
+    file: path="/var/www/html/deb-repo/deb-repo" state=absent
+
+  - name: Copy build debian_build scripts
+    copy: src="{{playbook_dir}}/automation/debian_scripts" dest=/home/debian owner=root group=root mode=0755 force=yes
+
+  - name: Copy artifacts virtual enviornment 
+    copy: src="{{playbook_dir}}/automation/openstack-build-scripts" dest=/home/debian owner=root group=root mode=0755 force=yes
+
+  - name: build debian pacakges
+    shell: /home/debian/debian_scripts/clone_repos.sh
+    environment:
+      TVAULT_VERSION: '{{ TVAULT_VERSION }}'
+    args:
+      chdir: /home/debian/debian_scripts
+
+  - find: paths="/var/www/html/deb-repo/" recurse=yes patterns="*.*"
+    register: files_to_copy
+  - fetch: src={{ item.path }} dest="{{playbook_dir}}/automation/"
+    with_items: "{{ files_to_copy.files }}"

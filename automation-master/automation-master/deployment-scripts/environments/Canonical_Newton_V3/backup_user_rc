@@ -1,0 +1,15 @@
+unset OS_USERNAME
+unset OS_TENANT_NAME
+unset OS_PASSWORD
+unset OS_AUTH_URL
+unset OS_IDENTITY_API_VERSION
+unset OS_DOMAIN_ID
+export OS_USERNAME=backup_user
+export OS_USER_DOMAIN_ID=954f54298cc845eab641624cc2cde0f9
+export OS_PASSWORD=password
+export OS_AUTH_URL=http://ubuntu-newton:5000/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_PROJECT_NAME=demo
+export OS_PROJECT_DOMAIN_ID=954f54298cc845eab641624cc2cde0f9
+export PROJECT_DOMAIN_NAME=demo_domain
+export PS1='[\u@\h \W(backup_user)]\$ '

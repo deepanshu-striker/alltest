@@ -1,0 +1,23 @@
+- hosts: webservers
+  tasks:
+  - command: git pull git@github.com:trilioData/workloadmanager.git
+    args:
+      chdir: /opt/stack/workloadmgr
+    become: yes
+    become_user: stack
+ 
+  - command: git pull git@github.com:trilioData/workloadmanager-client.git
+    args:
+      chdir: /opt/stack/python-workloadmgrclient
+    become: yes
+    become_user: stack
+  - command: git pull git@github.com:trilioData/tvault-nova.git
+    args:
+      chdir: /opt/stack/nova
+    become: yes
+    become_user: stack
+  - command: git pull git@github.com:trilioData/tvault-gui
+    args:
+      chdir: /opt/tvault-gui
+    become: yes
+    become_user: tvault-gui

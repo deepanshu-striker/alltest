@@ -1,0 +1,7 @@
+=========Pre-requisites to use these scripts===
+Make sure ssh keys of your log server is copied to all other remote server from whom you will be fetching the logs.
+
+Enter Compute, Controller and Tvault-appliance IP in log_gather.answers file and run tvault_collect_log.sh
+
+=========To run the script===
+Once Pre-requisities are done you can run the shell script (eg ./tvault_collect_log.sh)

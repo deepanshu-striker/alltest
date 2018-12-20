@@ -1,0 +1,15 @@
+# /etc/systemd/system/wlm-scheduler.service
+[Unit]
+Description=workloadmanager scheduler service
+After=wlm-scheduler.service
+
+[Service]
+Type=simple
+User=nova
+ExecStart=/usr/local/bin/workloadmgr-scheduler --config-file=/etc/workloadmgr/workloadmgr.conf
+KillMode=process
+Restart=on-failure
+WorkingDirectory=/var/run
+
+[Install]
+WantedBy=multi-user.target

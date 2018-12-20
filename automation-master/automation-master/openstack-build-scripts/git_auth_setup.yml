@@ -1,0 +1,86 @@
+- hosts: '{{ host }}'
+  vars_files:
+   - vars/tvault-config.yml
+   - vars/openstack-config.yml
+
+  tasks:
+  - name: Copy root public key
+    copy: src="{{playbook_dir}}/artifacts/id_rsa.pub" dest=/root/.ssh/ owner=root group=root mode=0644
+ 
+  - name: Copy root private key
+    copy: src="{{playbook_dir}}/artifacts/id_rsa" dest=/root/.ssh/ owner=root group=root mode=0600
+
+  - name: Copy stack user public key
+    copy: src="{{playbook_dir}}/artifacts/id_rsa.pub" dest=/home/stack/.ssh/ owner=stack group=stack mode=0644
+
+  - name: Copy stack use private key
+    copy: src="{{playbook_dir}}/artifacts/id_rsa" dest=/home/stack/.ssh/ owner=stack group=stack mode=0600
+
+  - name: Copy ansible script's bundle to applaince
+    copy: src="{{playbook_dir}}/tvault-ansible-scripts-{{TVAULT_VERSION}}.tar.gz" dest=/opt/ owner=root group=root mode=0755
+
+  - name: Copy puppet scripts bundle to applaince
+    copy: src="{{playbook_dir}}/trilio-redhat-director-scripts-{{TVAULT_VERSION}}.tar.gz" dest=/opt/ owner=root group=root mode=0755
+
+  - name: Copy premitaka contego env
+    copy: src="{{playbook_dir}}/automation/openstack-build-scripts/artifacts/premitaka/tvault-contego-virtenv.tar.gz" dest=/opt/premitaka/ owner=root group=root mode=0755
+
+  - name: Copy mitaka contego env
+    copy: src="{{playbook_dir}}/automation/openstack-build-scripts/artifacts/mitaka/tvault-contego-virtenv.tar.gz" dest=/opt/mitaka/ owner=root group=root mode=0755
+
+  - name: Copy newton contego env
+    copy: src="{{playbook_dir}}/automation/openstack-build-scripts/artifacts/newton/" dest=/opt/newton/ owner=root group=root mode=0755
+
+  - name: Copy queens_ubuntu contego env
+    copy: src="{{playbook_dir}}/automation/openstack-build-scripts/artifacts/queens_ubuntu/tvault-contego-virtenv.tar.gz" dest=/opt/queens_ubuntu/ owner=root group=root mode=0755
+
+  - name: Copy queens_redhat contego env
+    copy: src="{{playbook_dir}}/automation/openstack-build-scripts/artifacts/queens_redhat/tvault-contego-virtenv.tar.gz" dest=/opt/queens_redhat/ owner=root group=root mode=0755
+
+  - name: Copy install_pypi.sh
+    copy: src="{{playbook_dir}}/automation/openstack-build-scripts/artifacts/install_pypi.sh" dest=/home/stack/ owner=root group=root mode=0755
+
+  - name: Copy pip 
+    copy: src="{{playbook_dir}}/automation/openstack-build-scripts/artifacts/pip-7.1.2.tar.gz" dest=/opt/ owner=root group=root mode=0755
+
+  - name: Copy triliovault.pub
+    copy: src="{{playbook_dir}}/automation/openstack-build-scripts/artifacts/triliovault.pub" dest=/etc/workloadmgr/ owner=root group=root mode=0755
+
+  - name: Copy sample ssl cert
+    copy: src="{{playbook_dir}}/automation/openstack-build-scripts/artifacts/tvault/ssl" dest=/etc/tvault/ owner=root group=root mode=0755
+
+  - name: Copy horizon install script
+    copy: src="{{playbook_dir}}/install_horizon.sh" dest=/opt/stack/ owner=root group=root mode=0755
+
+  - name: Copy tvault-config service
+    copy: src="{{playbook_dir}}/artifacts/services/tvault-config.service" dest=/etc/systemd/system/ owner=root group=root mode=0644
+
+  - name: Copy tvault-object-store service
+    copy: src="{{playbook_dir}}/artifacts/services/tvault-object-store.service" dest=/etc/systemd/system/ owner=root group=root mode=0644
+
+  - name: Copy wlm-api service
+    copy: src="{{playbook_dir}}/artifacts/services/wlm-api.service" dest=/etc/systemd/system/ owner=root group=root mode=0644
+
+  - name: Copy wlm-scheduler service
+    copy: src="{{playbook_dir}}/artifacts/services/wlm-scheduler.service" dest=/etc/systemd/system/ owner=root group=root mode=0644
+
+  - name: Copy wlm-workloads service
+    copy: src="{{playbook_dir}}/artifacts/services/wlm-workloads.service" dest=/etc/systemd/system/ owner=root group=root mode=0644
+
+  - name: Copy grafana-db file
+    copy: src="{{playbook_dir}}/automation/openstack-build-scripts/grafana_db.sql" dest=/opt/stack/ owner=root group=root mode=0644
+  
+  - name: Copy change_grafana_password file
+    copy: src="{{playbook_dir}}/automation/openstack-build-scripts/change_grafana_password.sh" dest=/opt/stack/ owner=root group=root mode=0755
+
+  - name: Copy collectLogs file
+    copy: src="{{playbook_dir}}/automation/utilities/collect-logs" dest=/usr/bin/ owner=root group=root mode=0755
+    
+  - name: Copy debians and associated files
+    copy: src="{{playbook_dir}}/automation/{{build_deb_server}}/var/www/html/" dest=/var/www/html/ owner=root group=root mode=0644
+  
+  - name: Copy influxdb.conf file
+    copy: src="{{playbook_dir}}/automation/openstack-build-scripts/influxdb.conf" dest=/etc/influxdb/ owner=root group=root mode=0755
+    
+  - name: Copy collectd.conf file
+    copy: src="{{playbook_dir}}/automation/openstack-build-scripts/collectd.conf" dest=/etc/collectd/ owner=root group=root mode=0755

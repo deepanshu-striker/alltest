@@ -1,0 +1,19 @@
+Source: contego
+Maintainer: TrilioData <mahesh.bhoge@trilio.io>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 9)
+
+Package: contego
+Architecture: any
+Depends: adduser,
+         curl,
+         nova-compute,
+		 python-eventlet,
+		 python-greenlet,
+		 python-lxml,
+		 python-oslo.config,
+		 python-setuptools
+Description: contego-datamover package
+ contego greets the user, or the world.

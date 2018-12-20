@@ -1,0 +1,25 @@
+- hosts: webservers
+  tasks:
+  - copy: src="{{playbook_dir}}/artifacts/wlm-workloads.override" dest=/etc/init/wlm-workloads.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/wlm-scheduler.override" dest=/etc/init/wlm-scheduler.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/wlm-api.override" dest=/etc/init/wlm-api.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/nova-compute.override" dest=/etc/init/nova-compute.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/nova-cert.override" dest=/etc/init/nova-cert.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/nova-api.override" dest=/etc/init/nova-api.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/nova-consoleauth.override" dest=/etc/init/nova-consoleauth.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/nova-conductor.override" dest=/etc/init/nova-conductor.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/nova-scheduler.override" dest=/etc/init/nova-scheduler.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/nova-novncproxy.override" dest=/etc/init/nova-novncproxy.override  owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/nova-xvpvncproxy.override" dest=/etc/init/nova-xvpvncproxy.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/keystone.override" dest=/etc/init/keystone.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/glance-registry.override" dest=/etc/init/glance-registry.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/glance-api.override" dest=/etc/init/glance-api.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/neutron-dhcp-agent.override" dest=/etc/init/neutron-dhcp-agent.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/neutron-metadata-agent.override" dest=/etc/init/neutron-metadata-agent.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/neutron-plugin-openvswitch-agent.override" dest=/etc/init/neutron-plugin-openvswitch-agent.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/neutron-l3-agent.override" dest=/etc/init/neutron-l3-agent.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/neutron-server.override" dest=/etc/init/neutron-server.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/rabbitmq-server.override" dest=/etc/init/rabbitmq-server.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/tvault-gui.override" dest=/etc/init/tvault-gui.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/tvault-gui-web.override" dest=/etc/init/tvault-gui-web.override owner=root group=root mode=0644
+  - copy: src="{{playbook_dir}}/artifacts/tvault-gui-web-1.override" dest=/etc/init/tvault-gui-web-1.override owner=root group=root mode=0644

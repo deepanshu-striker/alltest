@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Deploy and configure a Tvault on respective openstack for testing</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.synopsys.arc.jenkins.plugins.ownership.jobs.JobOwnerJobProperty plugin="ownership@0.8"/>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <com.gem.persistentparameter.PersistentChoiceParameterDefinition plugin="persistent-parameter@1.1">
+          <name>GIT_BRANCH_NAME</name>
+          <description>Git Branch</description>
+          <choices>
+            <string>master</string>
+            <string>v2.2</string>
+            <string>v2.3</string>
+          </choices>
+          <successfulOnly>false</successfulOnly>
+        </com.gem.persistentparameter.PersistentChoiceParameterDefinition>
+        <com.gem.persistentparameter.PersistentStringParameterDefinition plugin="persistent-parameter@1.1">
+          <name>TVAULTBUILD_NUMBER</name>
+          <description>Tvault Build Version to be upgraded</description>
+          <defaultValue>2.3.50</defaultValue>
+          <successfulOnly>false</successfulOnly>
+        </com.gem.persistentparameter.PersistentStringParameterDefinition>
+        <com.gem.persistentparameter.PersistentChoiceParameterDefinition plugin="persistent-parameter@1.1">
+          <name>STORAGE</name>
+          <description>Select the type of Storage to be used for Tvault configuration</description>
+          <choices>
+            <string>NFS</string>
+            <string>SWIFT-KEYSTONEV2</string>
+            <string>SWIFT-KEYSTONEV3</string>
+            <string>SWIFT-TEMPAUTH</string>
+          </choices>
+          <successfulOnly>true</successfulOnly>
+        </com.gem.persistentparameter.PersistentChoiceParameterDefinition>
+        <com.gem.persistentparameter.PersistentStringParameterDefinition plugin="persistent-parameter@1.1">
+          <name>STORAGE_NFS_EXPORT</name>
+          <description>NFS storage details</description>
+          <defaultValue>192.168.1.33:/mnt/tvault,192.168.1.33:/mnt/tvault_1</defaultValue>
+          <successfulOnly>false</successfulOnly>
+        </com.gem.persistentparameter.PersistentStringParameterDefinition>
+        <com.gem.persistentparameter.PersistentStringParameterDefinition plugin="persistent-parameter@1.1">
+          <name>SWIFT_AUTH_URL</name>
+          <description>Swift Authentication URL for Tempauth</description>
+          <defaultValue>http://192.99.66.213/auth/v1.0</defaultValue>
+          <successfulOnly>false</successfulOnly>
+        </com.gem.persistentparameter.PersistentStringParameterDefinition>
+        <com.gem.persistentparameter.PersistentStringParameterDefinition plugin="persistent-parameter@1.1">
+          <name>SWIFT_USERNAME</name>
+          <description>Swift Username for Tempauth</description>
+          <defaultValue>tvault</defaultValue>
+          <successfulOnly>false</successfulOnly>
+        </com.gem.persistentparameter.PersistentStringParameterDefinition>
+        <hudson.model.PasswordParameterDefinition>
+          <name>SWIFT_PASSWORD</name>
+          <description>Swift Password for Tempauth</description>
+          <defaultValue>QQn6L4jT5B0/QZ/SpvJbOdTvmCWVqz06+UIbgKgGLE0=</defaultValue>
+        </hudson.model.PasswordParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.0">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>git@github.com:savitha-p/automation.git</url>
+        <credentialsId>e4db19f8-0bd1-4943-8c49-cce696e79358</credentialsId>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>upgrade-build</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <assignedNode>Automation_119</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>true</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>mkdir -p deployment-scripts/environments/${BUILD_USER_ID}_setup
+cd deployment-scripts/environments/${BUILD_USER_ID}_setup
+
+#Setup details for openstack-auth.sh
+cat &gt; openstack-auth.sh &lt;&lt;EOF
+export OS_USERNAME=admin
+export OS_PASSWORD=password
+export OS_AUTH_URL=http://192.168.1.70:5000/v2.0
+export OS_TENANT_NAME=admin
+export OS_REGION_NAME=RegionOne
+EOF
+
+#Details for ansible host file
+cat &gt; ansible_hosts &lt;&lt;EOF
+[controller]
+192.168.1.70
+
+[compute]
+192.168.1.70
+
+[horizon]
+192.168.1.70
+
+[localhost]
+127.0.0.1     ansible_connection=local
+EOF
+
+#Openstack Setup details for build.properties
+export CONTROLLERIP=192.168.1.70
+export CONTROLLERPWD=Password1!
+export COMPUTEIP=192.168.1.70
+export COMPUTEPWD=Password1!
+
+#Details for tvault configuration
+export ADMIN_URL=http://192.168.1.70:35357/v2.0
+export PUBLIC_URL=http://192.168.1.70:5000/v2.0
+export DOMAIN_ID=default
+export TRUSTEE_ROLE=_member_
+export ADMIN_USERNAME=admin
+export ADMIN_PWD=password
+export ADMIN_TENANT_NAME=admin
+export REGION_NAME=RegionOne
+export NAME_SERVER=192.168.1.1
+export DOMAIN_SEARCH_ORDER=triliodata.demo
+
+#Details for tvault contego
+export SETUP_TYPE=RHEL
+export NOVA_COMPUTE_FILTERS_FILE=&quot;&quot;
+
+#Details for tvault horizon
+export WEBSERVER=httpd
+
+cp ../build_setup/tvault-config.answers .
+cp ../build_setup/tvault-contego-answers.yml .
+cp ../build_setup/tvault-horizon-plugin-answers.yml .
+cp ../build_setup/build.properties .
+
+sed -i &apos;/keystone_admin_url=/c keystone_admin_url=&apos;$ADMIN_URL&apos;&apos; tvault-config.answers
+sed -i &apos;/keystone_public_url=/c keystone_public_url=&apos;$PUBLIC_URL&apos;&apos; tvault-config.answers
+sed -i &apos;/domain_id=/c domain_id=&apos;$DOMAIN_ID&apos;&apos; tvault-config.answers
+sed -i &apos;/trustee_role=/c trustee_role=&apos;$TRUSTEE_ROLE&apos;&apos; tvault-config.answers
+sed -i &apos;/admin_username=/c admin_username=&apos;$ADMIN_USERNAME&apos;&apos; tvault-config.answers
+sed -i &apos;/admin_password=/c admin_password=&apos;$ADMIN_PWD&apos;&apos; tvault-config.answers
+sed -i &apos;/admin_tenant_name=/c admin_tenant_name=&apos;$ADMIN_TENANT_NAME&apos;&apos; tvault-config.answers
+sed -i &apos;/region_name=/c region_name=&apos;$REGION_NAME&apos;&apos; tvault-config.answers
+sed -i &apos;/name_server=/c name_server=&apos;$NAME_SERVER&apos;&apos; tvault-config.answers
+sed -i &apos;/domain_search_order=/c domain_search_order=&apos;$DOMAIN_SEARCH_ORDER&apos;&apos; tvault-config.answers
+
+case &quot;$SETUP_TYPE&quot; in
+   RHEL) echo &apos;NOVA_COMPUTE_FILTERS_FILE: /usr/share/nova/rootwrap/compute.filters&apos; &gt;&gt; tvault-contego-answers.yml;;
+   Debian) echo &apos;NOVA_COMPUTE_FILTERS_FILE: /etc/nova/rootwrap.d/compute.filters&apos; &gt;&gt; tvault-contego-answers.yml;;
+   Other) echo &apos;NOVA_COMPUTE_FILTERS_FILE: &apos;$NOVA_COMPUTE_FILTERS_FILE&apos;&apos; &gt;&gt; tvault-contego-answers.yml;;
+esac
+
+sed -i &apos;/WebServer:/c WebServer: &apos;$WEBSERVER&apos;&apos; tvault-horizon-plugin-answers.yml
+
+sed -i &apos;/compute_node_ip=/c compute_node_ip=&apos;$COMPUTEIP&apos;&apos; build.properties
+sed -i &apos;/compute_node_password=/c compute_node_password=&apos;$COMPUTEPWD&apos;&apos; build.properties
+sed -i &apos;/controller_node_ip=/c controller_node_ip=&apos;$CONTROLLERIP&apos;&apos; build.properties
+sed -i &apos;/controller_node_password=/c controller_node_password=&apos;$CONTROLLERPWD&apos;&apos; build.properties
+
+cd ../../../openstack-build-scripts/
+
+export TVM_LAUNCH_SETUP=Redhat_Newton_V2_Ceph
+export TVAULT_IP=192.168.1.126
+export SETUP_NAME=${BUILD_USER_ID}_setup
+
+./upgrade_build.sh
+if [ $? -ne 0 ]
+then
+  echo -e &quot;Upgrade build failed, exiting\n&quot;
+  exit 1
+fi</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.41">
+      <recipientList>savita.peri@triliodata.com,shyam.biradar@triliodata.com</recipientList>
+      <configuredTriggers>
+        <hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
+          <email>
+            <recipientList></recipientList>
+            <subject>$PROJECT_DEFAULT_SUBJECT</subject>
+            <body>$PROJECT_DEFAULT_CONTENT</body>
+            <recipientProviders>
+              <hudson.plugins.emailext.plugins.recipients.ListRecipientProvider/>
+            </recipientProviders>
+            <attachmentsPattern></attachmentsPattern>
+            <attachBuildLog>false</attachBuildLog>
+            <compressBuildLog>false</compressBuildLog>
+            <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
+            <contentType>project</contentType>
+          </email>
+        </hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
+      </configuredTriggers>
+      <contentType>default</contentType>
+      <defaultSubject>Upgrade Build to ${ENV,var=&quot;TVAULTBUILD_NUMBER&quot;}</defaultSubject>
+      <defaultContent>$DEFAULT_CONTENT</defaultContent>
+      <attachmentsPattern></attachmentsPattern>
+      <presendScript></presendScript>
+      <attachBuildLog>false</attachBuildLog>
+      <compressBuildLog>false</compressBuildLog>
+      <replyTo>savita.peri@triliodata.com</replyTo>
+      <saveOutput>false</saveOutput>
+      <disabled>false</disabled>
+    </hudson.plugins.emailext.ExtendedEmailPublisher>
+  </publishers>
+  <buildWrappers>
+    <org.jenkinsci.plugins.builduser.BuildUser plugin="build-user-vars-plugin@1.5"/>
+  </buildWrappers>
+</project>

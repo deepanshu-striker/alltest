@@ -1,0 +1,5 @@
+- hosts: compute
+
+  tasks:
+  - name: Start tvault-contego service
+    service: name=tvault-contego state=started enabled=yes

@@ -1,0 +1,27 @@
+- hosts: webservers
+  tasks:
+  - file: path=/opt/stack/data/wlm/snapshots state=absent
+  - file: path=/opt/stack/data/logs state=absent
+  - file: path=/tmp/tvaultlogs state=absent
+#This is to make sure the directory are present and are empty
+  - file: path=/var/log/workloadmgr/ state=absent mode=0755
+  - file: path=/var/log/workloadmgr/ state=directory mode=0755
+  - file: path=/var/cache/workloadmgr/ state=absent mode=0755
+  - file: path=/var/cache/workloadmgr/ state=directory mode=0755
+  - file: path=/var/log/tvault-gui/ state=absent mode=0755
+  - file: path=/var/log/tvault-gui/ state=directory mode=0755
+  - file: path=/var/log/keystone/ state=absent mode=0755
+  - file: path=/var/log/keystone/ state=directory mode=0755
+  - file: path=/var/log/nova/ state=absent mode=0755
+  - file: path=/var/log/nova/ state=directory mode=0755
+  - file: path=/var/log/neutron/ state=absent mode=0755
+  - file: path=/var/log/neutron/ state=directory mode=0755
+  - file: path=/var/log/glance/ state=absent mode=0755
+  - file: path=/var/log/glance/ state=directory mode=0755
+  - file: path=/var/log/tvault-gui/ state=absent mode=0755
+  - file: path=/var/log/tvault-gui/ state=directory mode=0755
+  - file: path=/var/log/upstart/ state=absent mode=0755
+  - file: path=/var/log/upstart/ state=directory mode=0755
+  - file: path=/tmp/vmware-root/ state=absent mode=0755
+  - file: path=/tmp/vmware-root/ state=directory mode=0755
+

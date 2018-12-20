@@ -1,0 +1,4 @@
+- hosts: webservers
+  tasks:
+  - copy: src="{{playbook_dir}}/artifacts/acceptCert.sh" dest=/home/stack owner=root group=root mode=0777
+  - shell: /home/stack/acceptCert.sh >> acceptCert.log chdir=/home/stack

@@ -1,0 +1,281 @@
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.1.117.tar.gz
+Installing tvault-horizon-plugin-2.1.117.tar.gz
+ * Restarting web server apache2
+   ...done.
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.1.117.tar.gz
+Installing tvault-horizon-plugin-2.1.117.tar.gz
+ * Restarting web server apache2
+   ...done.
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.0.208.tar.gz
+Installing tvault-horizon-plugin-2.0.208.tar.gz
+ * Restarting web server apache2
+   ...done.
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.0.209.tar.gz
+Installing tvault-horizon-plugin-2.0.209.tar.gz
+ * Restarting web server apache2
+   ...done.
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.0.210.tar.gz
+Installing tvault-horizon-plugin-2.0.210.tar.gz
+ * Restarting web server apache2
+   ...done.
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.1.118.tar.gz
+Installing tvault-horizon-plugin-2.1.118.tar.gz
+ * Restarting web server apache2
+   ...done.
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.0.210.tar.gz
+Installing tvault-horizon-plugin-2.0.210.tar.gz
+ * Restarting web server apache2
+   ...done.
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.1.120.tar.gz
+Installing tvault-horizon-plugin-2.1.120.tar.gz
+ * Restarting web server apache2
+   ...done.
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.1.121.tar.gz
+Installing tvault-horizon-plugin-2.1.121.tar.gz
+ * Restarting web server apache2
+   ...done.
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/images/error.png'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/images/loader.gif'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/images/loading.gif'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/images/success.png'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/images/sort_desc.png'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/images/glyphicons-halflings.png'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/images/main.png'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/images/sort_both.png'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/images/sort_asc.png'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/css/tvault_dashboard.css'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/css/dashboard.css'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/css/daterangepicker.css'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/css/jquery.dataTables.css'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/css/jqplot/jquery-ui.min.css'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/css/jqplot/jquery.jqplot.min.css'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/css/jqplot/images/ui-bg_flat_75_ffffff_40x100.png'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/css/jqplot/images/ui-icons_222222_256x240.png'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/jquery.easing.min.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/jquery.sparkline.min.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/jquery.dataTables.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/light.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/amcharts.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/serial.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/daterangepicker.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/jquery.easypiechart.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/moment.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/tvault_dashboard.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/jqplot/excanvas.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/jqplot/jquery.jqplot.min.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/jqplot/jqplot.categoryAxisRenderer.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/jqplot/jqplot.pointLabels.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/jqplot/jquery.min.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/jqplot/jquery-ui.min.js'
+Copying '/usr/local/lib/python2.7/dist-packages/dashboards/static/dashboards/js/jqplot/jqplot.barRenderer.js'
+
+34 static files copied to '/usr/share/openstack-dashboard/static', 900 unmodified.
+>>> >>> >>> >>> >>> ... ... ... >>> 0
+>>> /root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.2.3.tar.gz
+Installing tvault-horizon-plugin-2.2.3.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.2.4.tar.gz
+Installing tvault-horizon-plugin-2.2.4.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.2.5.tar.gz
+Installing tvault-horizon-plugin-2.2.5.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.2.6.tar.gz
+Installing tvault-horizon-plugin-2.2.6.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.2.7.tar.gz
+Installing tvault-horizon-plugin-2.2.7.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.2.9.tar.gz
+Installing tvault-horizon-plugin-2.2.9.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.2.9.tar.gz
+Installing tvault-horizon-plugin-2.2.9.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.2.10.tar.gz
+Installing tvault-horizon-plugin-2.2.10.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.2.11.tar.gz
+Installing tvault-horizon-plugin-2.2.11.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.3.1.tar.gz
+Installing tvault-horizon-plugin-2.3.1.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.2.12.tar.gz
+Installing tvault-horizon-plugin-2.2.12.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.2.12.tar.gz
+Installing tvault-horizon-plugin-2.2.12.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.2.13.tar.gz
+Installing tvault-horizon-plugin-2.2.13.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.2.14.tar.gz
+Installing tvault-horizon-plugin-2.2.14.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.3.2.tar.gz
+Installing tvault-horizon-plugin-2.3.2.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.3.3.tar.gz
+Installing tvault-horizon-plugin-2.3.3.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.3.21.tar.gz
+Installing tvault-horizon-plugin-2.3.21.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.3.5.tar.gz
+Installing tvault-horizon-plugin-2.3.5.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.3.22.tar.gz
+Installing tvault-horizon-plugin-2.3.22.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.3.22.tar.gz
+Installing tvault-horizon-plugin-2.3.22.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.3.6.tar.gz
+Installing tvault-horizon-plugin-2.3.6.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.3.6.tar.gz
+Installing tvault-horizon-plugin-2.3.6.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.3.7.tar.gz
+Installing tvault-horizon-plugin-2.3.7.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.3.22.tar.gz
+Installing tvault-horizon-plugin-2.3.22.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.3.22.tar.gz
+Installing tvault-horizon-plugin-2.3.22.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.3.22.tar.gz
+Installing tvault-horizon-plugin-2.3.22.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin
+installing packages
+PIP already installed
+Installing python-workloadmgrclient-2.3.23.tar.gz
+Installing tvault-horizon-plugin-2.3.23.tar.gz
+ * Restarting web server apache2
+   ...done.
+/root/tvault-horizon-plugin

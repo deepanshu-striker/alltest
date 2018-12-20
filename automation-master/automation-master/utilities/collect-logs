@@ -1,0 +1,38 @@
+#!/bin/bash
+
+sourceDir="/var/log"
+wlLogDir="${sourceDir}/workloadmgr/"
+targetDir="$HOME/tVaultLogs_`date +%m%d%y_%H%M%S`"
+cmdOut="${targetDir}/cmdOut.txt"
+echo ${targetDir}
+	
+TV_hostnames=( $(grep triliovault_hostnames /etc/tvault-config/tvault-config.conf | awk '{print $3}' | sed "s/,/ /g; s/=/ /g") )
+
+CMD_1="pcs status"
+CMD_2="pcs constraint show --full"
+	
+mkdir -p ${targetDir}/${wlLogDir}
+for ((i=0;i<${#TV_hostnames[@]};i+=2));
+do
+	echo "========================================================"
+	echo "Fetching logs from : ${TV_hostnames[$i]}"
+	cmdOut="${targetDir}/${TV_hostnames[$i]}_cmdOut.txt"
+        mkdir -p ${targetDir}/${wlLogDir}/${TV_hostnames[$i]}
+        ssh ${TV_hostnames[$i]} date >> ${cmdOut}
+        echo -e "\n${CMD_1}\n" >> ${cmdOut}
+        ssh ${TV_hostnames[$i]} ${CMD_1} >> ${cmdOut}
+        echo -e "\n${CMD_2}\n" >> ${cmdOut}
+        ssh ${TV_hostnames[$i]} ${CMD_2} >> ${cmdOut}
+        ssh ${TV_hostnames[$i]} date >> ${cmdOut}
+        scp ${TV_hostnames[$i]}:/${sourceDir}/syslog ${targetDir}/${TV_hostnames[$i]}_syslog
+        scp ${TV_hostnames[$i]}:/${sourceDir}/haproxy.log ${targetDir}/${TV_hostnames[$i]}_haproxy.log
+        scp ${TV_hostnames[$i]}:/${sourceDir}/pacemaker.log ${targetDir}/${TV_hostnames[$i]}_pacemaker.log
+        scp ${TV_hostnames[$i]}:/${wlLogDir}/*.log ${targetDir}/${wlLogDir}/${TV_hostnames[$i]}
+done
+
+echo "========================================================"
+echo "Compressing and creating tar"
+tar -cvf ${targetDir}.tar ${targetDir}/
+gzip ${targetDir}.tar
+echo "Logs copied from respective TVault machines"
+echo "========================================================"

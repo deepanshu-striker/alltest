@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>Run TrilioVault sanity tests on Mirantis setups</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <com.synopsys.arc.jenkins.plugins.ownership.jobs.JobOwnerJobProperty plugin="ownership@0.8"/>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>GIT_BRANCH_NAME</name>
+          <description>Git Branch</description>
+          <defaultValue>master</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>TVAULT_IP</name>
+          <description>Trilio Vault IP</description>
+          <defaultValue>192.168.1.114</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.75">
+          <name>SANITY_SETUPS</name>
+          <description>List of setups on which Sanity check need to be performed</description>
+          <quoteValue>false</quoteValue>
+          <saveJSONParameterToFile>false</saveJSONParameterToFile>
+          <visibleItemCount>10</visibleItemCount>
+          <type>PT_CHECKBOX</type>
+          <value>Mirantis_Mitaka_V2_Ceph</value>
+          <defaultValue>Mirantis_Mitaka_V2_Ceph</defaultValue>
+          <multiSelectDelimiter>,</multiSelectDelimiter>
+          <projectName>Tvault_Sanity_Test_Mirantis</projectName>
+        </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>STORAGE_NFS_EXPORT</name>
+          <description>NFS storage details</description>
+          <defaultValue>192.168.1.33:/mnt/tvault</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>SWIFT_AUTH_URL</name>
+          <description>Swift Authentication URL</description>
+          <defaultValue>http://192.168.1.98/auth/v1.0</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>SWIFT_USERNAME</name>
+          <description>Swift Username</description>
+          <defaultValue>tvault</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.PasswordParameterDefinition>
+          <name>SWIFT_PASSWORD</name>
+          <description>Swift Password</description>
+          <defaultValue>REp1YQH3LRWr4LNDfe0ZRR2HYI3Pa1BpvhzVeahK5D8=</defaultValue>
+        </hudson.model.PasswordParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>TVAULTBUILD_NUMBER</name>
+          <description>Tvault Build Version on which tests should be run</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <assignedNode>mirantis_mitaka_189</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>#!/bin/bash
+cd openstack-build-scripts/
+pwd
+
+BASE_DIR=&quot;$(pwd)&quot;
+
+rm -rf Report/
+
+#Mount NFS Share
+if mountpoint -q /mnt/build-vault
+then
+   echo &quot;NFS already mounted&quot;
+else
+   echo &quot;NFS not mounted. Mounting..&quot;
+   mkdir -p /mnt/build-vault
+   mount -o v3 192.168.1.20:/mnt/build-vault /mnt/build-vault
+   if [ $? -ne 0 ]
+   then
+     echo &quot;Error occured in NFS mount, exiting..&quot;
+     exit 1
+   fi
+fi
+
+sed -i -e &apos;s/ -t nfs / -o v3 /g&apos; sanity_test.sh
+rm -f build_setup/*
+cp Mirantis_Mitaka_V2_Ceph/* build_setup/
+
+if [ &quot;$TVAULTBUILD_NUMBER&quot; == &quot;&quot; ]
+then
+   TVAULT_BUILD_NUMBER=`ls /mnt/build-vault/${GIT_BRANCH_NAME}/latest/ | cut -f 4 -d &apos;-&apos; | cut -f 1,2,3 -d &apos;.&apos;`
+else
+   TVAULT_BUILD_NUMBER=$TVAULTBUILD_NUMBER
+fi
+echo $TVAULT_BUILD_NUMBER
+
+#Update build_setup config files
+sed -i &apos;/floating_ip=/c floating_ip=&apos;$TVAULT_IP&apos;&apos; build_setup/build.properties
+sed -i &apos;/git_branch=/c git_branch=&apos;$GIT_BRANCH_NAME&apos;&apos; build_setup/build.properties
+sed -i &apos;/TVAULT_VERSION=/c TVAULT_VERSION=&apos;$TVAULT_BUILD_NUMBER&apos;&apos; build_setup/build.properties
+sed -i &apos;/controller_node_ip=/c controller_node_ip=&apos;$TVAULT_IP&apos;&apos; build_setup/tvault-config.answers
+sed -i &apos;/IP_ADDRESS: /c IP_ADDRESS: &apos;$TVAULT_IP&apos;&apos; build_setup/tvault-contego-answers.yml
+sed -i &apos;/TVAULTAPP: /c TVAULTAPP: &apos;$TVAULT_IP&apos;&apos; build_setup/tvault-horizon-plugin-answers.yml
+
+SETUPS=&quot;&quot;
+cnt=0
+IFS=&apos;,&apos; read -ra SETUP &lt;&lt;&lt; &quot;$SANITY_SETUPS&quot;
+for i in &quot;${SETUP[@]}&quot;; do
+   SETUP_DIR=$BASE_DIR&quot;/&quot;$i
+   sed -i &apos;/floating_ip=/c floating_ip=&apos;$TVAULT_IP&apos;&apos; $SETUP_DIR/build.properties
+   sed -i &apos;/git_branch=/c git_branch=&apos;$GIT_BRANCH_NAME&apos;&apos; $SETUP_DIR/build.properties
+   sed -i &apos;/TVAULT_VERSION=/c TVAULT_VERSION=&apos;$TVAULT_BUILD_NUMBER&apos;&apos; $SETUP_DIR/build.properties
+   sed -i &apos;/controller_node_ip=/c controller_node_ip=&apos;$TVAULT_IP&apos;&apos; $SETUP_DIR/tvault-config.answers
+   sed -i &apos;/IP_ADDRESS: /c IP_ADDRESS: &apos;$TVAULT_IP&apos;&apos; $SETUP_DIR/tvault-contego-answers.yml
+   sed -i &apos;/TVAULTAPP: /c TVAULTAPP: &apos;$TVAULT_IP&apos;&apos; $SETUP_DIR/tvault-horizon-plugin-answers.yml   
+   if [ $cnt -eq 0 ]
+   then
+      SETUPS=&quot;(&quot;&quot;\&quot;&quot;$i&quot;\&quot;&quot;
+   else
+      SETUPS=$SETUPS&quot; \&quot;&quot;$i&quot;\&quot;&quot;
+   fi
+   cnt=`expr $cnt + 1`
+done
+SETUPS=$SETUPS&quot;)&quot;
+sed -i &apos;/SETUPS=/c SETUPS=&apos;&quot;$SETUPS&quot;&apos;&apos; sanity_test.sh
+echo $SETUPS
+
+SETUPS=&quot;&quot;
+cnt=0
+IFS=&apos;,&apos; read -ra SETUP &lt;&lt;&lt; &quot;$SANITY_SETUPS&quot;
+for i in &quot;${SETUP[@]}&quot;; do
+   if [ $cnt -eq 0 ]
+   then
+      SETUPS=&quot;[&quot;&quot;\&quot;&quot;$i&quot;\&quot;&quot;
+   else
+      SETUPS=$SETUPS&quot;,\&quot;&quot;$i&quot;\&quot;&quot;
+   fi
+   cnt=`expr $cnt + 1`
+done
+SETUPS=$SETUPS&quot;]&quot;
+sed -i &apos;/setups = /c setups = &apos;&quot;$SETUPS&quot;&apos;&apos; sanity_report.py
+echo $SETUPS
+
+./sanity_test.sh No
+if [ $? -ne 0 ]
+then
+  exit 1
+fi
+
+
+cat test_results*
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers>
+    <hudson.plugins.emailext.ExtendedEmailPublisher plugin="email-ext@2.41">
+      <recipientList>savita.peri@triliodata.com</recipientList>
+      <configuredTriggers>
+        <hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
+          <email>
+            <recipientList>savita.peri@triliodata.com</recipientList>
+            <subject>Tvault Sanity Test Report (Mirantis)  - Jenkins #$BUILD_NUMBER</subject>
+            <body>$PROJECT_DEFAULT_CONTENT</body>
+            <recipientProviders>
+              <hudson.plugins.emailext.plugins.recipients.DevelopersRecipientProvider/>
+            </recipientProviders>
+            <attachmentsPattern></attachmentsPattern>
+            <attachBuildLog>false</attachBuildLog>
+            <compressBuildLog>false</compressBuildLog>
+            <replyTo>$PROJECT_DEFAULT_REPLYTO</replyTo>
+            <contentType>project</contentType>
+          </email>
+        </hudson.plugins.emailext.plugins.trigger.AlwaysTrigger>
+      </configuredTriggers>
+      <contentType>default</contentType>
+      <defaultSubject>Tvault Sanity Test Report (Mirantis)  - Jenkins #$BUILD_NUMBER</defaultSubject>
+      <defaultContent>$DEFAULT_CONTENT</defaultContent>
+      <attachmentsPattern></attachmentsPattern>
+      <presendScript>def reportPath = build.getWorkspace().child(&quot;openstack-build-scripts/Report/results.html&quot;)
+msg.setContent(reportPath.readToString(), &quot;text/html&quot;);</presendScript>
+      <attachBuildLog>false</attachBuildLog>
+      <compressBuildLog>false</compressBuildLog>
+      <replyTo>savita.peri@triliodata.com</replyTo>
+      <saveOutput>false</saveOutput>
+      <disabled>false</disabled>
+    </hudson.plugins.emailext.ExtendedEmailPublisher>
+  </publishers>
+  <buildWrappers/>
+</project>
